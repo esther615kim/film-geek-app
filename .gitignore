@@ -1,5 +1,7 @@
 .DS_Store
 babel.config.js
+*.cache
+.expo/cache/
 # Logs
 logs
 *.log
