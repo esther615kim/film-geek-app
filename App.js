@@ -1,24 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { Provider } from 'react-redux';
-import {store} from './src/redux/store';
+import React, { useState } from "react";
+import { Text, View, StyleSheet } from "react-native";
+import Constants from "expo-constants";
+import { Card } from "react-native-paper";
+import SignUpPage from "./src/pages/SignUpPage";
 
 export default function App() {
   return (
-    <Provider store={store}>
-    <View style={styles.container}>
-      <Text>Movie-Geek </Text>
-      <StatusBar style="auto" />
-    </View>
-    </Provider>
+
+        <View style={styles.container}>
+          <SignUpPage />
+        </View>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    // paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#333540",
   },
 });
