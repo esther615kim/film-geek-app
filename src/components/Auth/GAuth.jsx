@@ -1,10 +1,7 @@
 import * as React from "react";
+import { View } from "react-native";
 import { Avatar } from "react-native-paper";
-import { GoogleAuthProvider } from "firebase/auth";
-import { getAuth, signInWithPopup } from "firebase/auth";
 const G_LOGO = "../../../assets//GLogo.png";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase/config";
 
 const GAuth = () => {
   const handleClickGoogle = async () => {
@@ -12,10 +9,10 @@ const GAuth = () => {
     try {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
-      const result = signInWithPopup(auth,provider);
+      const result = signInWithPopup(auth, provider);
 
       const user = result.user;
-      console.log("result",result)
+      console.log("result", result);
 
       const userRef = doc(db, "users", user.uid);
       // check if user exists
@@ -33,19 +30,17 @@ const GAuth = () => {
         console.log("new user added");
       }
       // navigate to Homepage
-
     } catch (err) {
       console.log("fail to authorize with Google");
       console.log(err);
     }
   };
   return (
-    <div>
+    <View>
       {/* <Avatar.Image size={60} source={require(G_LOGO)} /> */}
       <Avatar.Icon onClick={handleClickGoogle} size={60} icon="google" />
-    </div>
+    </View>
   );
 };
 
 export default GAuth;
-

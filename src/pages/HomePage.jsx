@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { Text, View } from "react-native";
 
 const HomePage = () => {
   return (
-    <div>HomePage</div>
-  )
-}
+    <View>
+      <Text>HomePage</Text>
+    </View>
+  );
+};
 
-export default HomePage
+export default HomePage;

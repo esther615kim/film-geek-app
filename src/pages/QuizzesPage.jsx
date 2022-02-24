@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { Text, View } from "react-native";
 
 const QuizzesPage = () => {
   return (
-    <div>QuizzesPage</div>
-  )
-}
+    <View>
+      <Text>QuizzesPage</Text>
+    </View>
+  );
+};
 
-export default QuizzesPage
+export default QuizzesPage;
