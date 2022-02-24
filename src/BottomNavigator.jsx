@@ -23,11 +23,11 @@ export default function MyTabs() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "home") {
+          if (route.name === "Home") {
             iconName = "home";
-          } else if (route.name === "profile") {
+          } else if (route.name === "Profile") {
             iconName = "person";
-          } else if (route.name === "quiz") {
+          } else if (route.name === "Quiz") {
             iconName = "list";
           }
 
@@ -38,9 +38,9 @@ export default function MyTabs() {
         tabBarInactiveTintColor: "grey",
       })}
     >
-      <Tab.Screen name="home" component={LoginPage} />
-      <Tab.Screen name="profile" component={ProfilePage} />
-      <Tab.Screen name="quiz" component={MultipleChoice} />
+      <Tab.Screen name="Home" component={LoginPage} />
+      <Tab.Screen name="Profile" component={ProfilePage} />
+      <Tab.Screen name="Quiz" component={MultipleChoice} />
     </Tab.Navigator>
   );
 }
