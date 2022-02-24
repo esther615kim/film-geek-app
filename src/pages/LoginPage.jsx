@@ -33,7 +33,7 @@ export default function LoginPage() {
   };
   return (
     <>
-      <View style={{ padding: 20 }}>
+      <View style={styles.container}>
         <Headline style={{ color: "#fff" }}>Login</Headline>
         <View>
           <Text style={styles.label}>Email</Text>
@@ -49,7 +49,7 @@ export default function LoginPage() {
         <View>
           <Text style={styles.label}>Password</Text>
           <TextInput
-            style={styles.input}
+            style={styles.password}
             value={password}
             secureTextEntry
             right={<TextInput.Icon name="eye" />}
@@ -58,17 +58,24 @@ export default function LoginPage() {
             }}
           ></TextInput>
 
-          <Button style={styles.button} title="Log In" onPress={handleSubmit} />
+          <Button title="Log In" onPress={handleSubmit} />
         </View>
-
-        <Text style={styles.label}>Sign Up?</Text>
+        {/* navigate to Signup */}
+        <Text style={styles.signup}>Sign Up?</Text>
+        <GAuth />
       </View>
-      <GAuth />
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 40,
+    flex: 1,
+    alignItems: "center",
+    // paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#333540",
+  },
   title: {
     fontSize: 20,
     fontWeight: "500",
@@ -83,18 +90,21 @@ const styles = StyleSheet.create({
     color: "#fff",
     paddingTop: 15,
   },
+  signup: {
+    textAlign:"center",
+    fontSize:16,
+    color: "#fff",
+    padding:40,
+    paddingBottom:20
+  },
   input: {
-    width: "100%",
+    minWidth: 240,
     height: 40,
   },
   password: {
     width: "100%",
     height: 40,
-    marginTop: 20,
+    marginBottom:40
   },
 
-  button: {
-    width: "100%",
-    height: 40,
-  },
 });
