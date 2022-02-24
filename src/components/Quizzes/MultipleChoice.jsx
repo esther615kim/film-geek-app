@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 
-const db = getFirestore();
-
 const generateRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
