@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Platform, Button, Alert, useColorScheme } from "react-native";
 import { TextInput, Headline } from "react-native-paper";
-import { Link } from '@react-navigation/native';
-import {
-  getAuth,
-  signInWithEmailAndPassword
-} from "firebase/auth";
+import { Link } from "@react-navigation/native";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./../firebase/config";
-import GAuth from '../components/Auth/GAuth';
+import GAuth from "../components/Auth/GAuth";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -23,26 +20,21 @@ export default function LoginPage() {
     try {
       const auth = getAuth();
 
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
       const user = userCredential.user;
-      if(userCredential.user){
-          console.log("logged in!")
-          // navigate to Main Page
+      if (userCredential.user) {
+        console.log("logged in!");
+        // navigate to Main Page
       }
-
     } catch (err) {
       console.log(err);
     }
   };
   return (
     <>
-      <form style={{ padding: 20 }}>
-        <Headline style={{color:"#fff"}}>Login</Headline>
+      <View style={{ padding: 20 }}>
+        <Headline style={{ color: "#fff" }}>Login</Headline>
         <View>
           <Text style={styles.label}>Email</Text>
           <TextInput
@@ -65,15 +57,13 @@ export default function LoginPage() {
               setPassword(password);
             }}
           ></TextInput>
-                  <br />
-                  <br/>
-        <Button style={styles.button} title="Log In" onPress={handleSubmit} />
-        <br/>
+
+          <Button style={styles.button} title="Log In" onPress={handleSubmit} />
         </View>
-        <br/>
+
         <Text style={styles.label}>Sign Up?</Text>
-      </form>
-      <GAuth/>
+      </View>
+      <GAuth />
     </>
   );
 }
@@ -81,7 +71,7 @@ export default function LoginPage() {
 const styles = StyleSheet.create({
   title: {
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: "500",
     padding: Platform.OS === "android" ? 12 : 10,
     paddingBottom: 40,
     textAlign: "center",

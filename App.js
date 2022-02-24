@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import Constants from "expo-constants";
 import { Card } from "react-native-paper";
 import SignUpPage from "./src/pages/SignUpPage";
-import LoginPage from './src/pages/LoginPage';
+import LoginPage from "./src/pages/LoginPage";
+import MyTabs from "./src/BottomNavigator";
 
 export default function App() {
   return (
-
-        <View style={styles.container}>
-          {/* <SignUpPage /> */}
-          <LoginPage/>
-        </View>
-
+    <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
   );
 }
 

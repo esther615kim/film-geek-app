@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Platform, Button, Alert } from "react-native";
 import { TextInput, Headline } from "react-native-paper";
-import { Link } from '@react-navigation/native';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { Link } from "@react-navigation/native";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./../firebase/config";
 
@@ -23,11 +19,7 @@ export default function SignUpPage() {
     try {
       const auth = getAuth();
 
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       const user = userCredential.user;
 
@@ -51,7 +43,7 @@ export default function SignUpPage() {
   return (
     <>
       <form style={{ padding: 20 }}>
-        <Headline style={{color:"#fff"}}>Sign Up</Headline>
+        <Headline style={{ color: "#fff" }}>Sign Up</Headline>
         <View>
           <Text style={styles.label}>Username</Text>
           <TextInput
@@ -72,7 +64,6 @@ export default function SignUpPage() {
             }}
           ></TextInput>
         </View>
-
         <View>
           <Text style={styles.label}>Password</Text>
           <TextInput
@@ -86,9 +77,9 @@ export default function SignUpPage() {
         <View>
           <TextInput style={styles.password}></TextInput>
         </View>
-        <br />
+
         <Button style={styles.button} title="Register" onPress={handleSubmit} />
-        <br/>
+
         <Text style={styles.label}>Already Sign up?</Text>
       </form>
     </>
@@ -98,7 +89,7 @@ export default function SignUpPage() {
 const styles = StyleSheet.create({
   title: {
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: "500",
     padding: Platform.OS === "android" ? 12 : 10,
     paddingBottom: 40,
     textAlign: "center",
