@@ -3,10 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
-import SingleMoviePage from './../pages/SingleMoviePage';
 import HomePage from './../pages/HomePage';
 import LoginPage from './../pages/LoginPage';
 import ProfilePage from './../pages/ProfilePage';
+import MultipleChoice from './Quizzes/MultipleChoice';
 
 function SettingsScreen() {
   return (
@@ -43,9 +43,9 @@ export default function MyTabs() {
       })}
     >
        <Tab.Screen name="home" component={LoginPage} />
-      <Tab.Screen name="movie" component={SingleMoviePage} />
+      {/* <Tab.Screen name="movie" component={SingleMoviePage} /> */}
+      <Tab.Screen name="quiz" component={MultipleChoice} />
       <Tab.Screen name="profile" component={ProfilePage} />
-      {/* <Tab.Screen name="quiz" component={MultipleChoice} /> */}
     </Tab.Navigator>
   );
 }
