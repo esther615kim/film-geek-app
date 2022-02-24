@@ -5,7 +5,7 @@ import Constants from "expo-constants";
 import { Card } from "react-native-paper";
 import SignUpPage from "./src/pages/SignUpPage";
 import LoginPage from "./src/pages/LoginPage";
-import MyTabs from "./src/BottomNavigator";
+import MyTabs from './src/components/BottomNavigator';
 
 export default function App() {
   return (
