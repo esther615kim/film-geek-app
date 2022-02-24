@@ -1,10 +1,12 @@
 import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LoginPage from "./pages/LoginPage";
-import ProfilePage from "./pages/ProfilePage";
-import MultipleChoice from "./components/Quizzes/MultipleChoice";
+
 import Ionicons from "react-native-vector-icons/Ionicons";
+import SingleMoviePage from './../pages/SingleMoviePage';
+import HomePage from './../pages/HomePage';
+import LoginPage from './../pages/LoginPage';
+import ProfilePage from './../pages/ProfilePage';
 
 function SettingsScreen() {
   return (
@@ -29,6 +31,8 @@ export default function MyTabs() {
             iconName = "person";
           } else if (route.name === "quiz") {
             iconName = "list";
+          }else if (route.name === "movie") {
+            iconName = "film";
           }
 
           // You can return any component that you like here!
@@ -38,9 +42,10 @@ export default function MyTabs() {
         tabBarInactiveTintColor: "grey",
       })}
     >
-      <Tab.Screen name="home" component={LoginPage} />
+       <Tab.Screen name="home" component={LoginPage} />
+      <Tab.Screen name="movie" component={SingleMoviePage} />
       <Tab.Screen name="profile" component={ProfilePage} />
-      <Tab.Screen name="quiz" component={MultipleChoice} />
+      {/* <Tab.Screen name="quiz" component={MultipleChoice} /> */}
     </Tab.Navigator>
   );
 }
