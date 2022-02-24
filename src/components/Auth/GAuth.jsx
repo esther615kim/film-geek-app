@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Avatar } from "react-native-paper";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 const G_LOGO = "../../../assets//GLogo.png";
 
 const GAuth = () => {
