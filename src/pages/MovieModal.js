@@ -20,16 +20,13 @@ import { postUserComment } from "../utils/api";
 import MovieDetail from "../components/Movies/MovieDetail";
 import CommentsList from "../components/Comments/CommentsList";
 
-export default function MovieModal({ navigation }) {
+export default function MovieModal({ navigation, film_id, username }) {
   // TODO Add Current User
-  const [username, setUsername] = useState("Hamas");
-  const [film_id, setFilm_id] = useState(1);
+  //const [username, setUsername] = useState("Hamas");
+  //const [film_id, setFilm_id] = useState(1);
   const [comments, setComments] = useState("");
   const [errors, setErrors] = useState([]);
   const [comment, setComment] = useState([]);
-
-  // TODO Use actual film
-  let test_film_id = Math.floor(Math.random() * 10 + 1);
 
   useEffect(() => {
     getComments().then((comments) => {

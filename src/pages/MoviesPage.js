@@ -1,47 +1,58 @@
-import { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
-import { getAuth } from "firebase/auth";
+import { useState } from "react";
+import { Text, View, ScrollView } from "react-native";
+import { doc, getDoc, addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase/config";
+import { useEffect } from "react";
+import { Card, Title, Paragraph } from "react-native-paper";
 
-export default function MoviesPage({ navigation, route }) {
-  // TODO Refactor - Wrappped Esther's Auth Code
-  const [user, setUser] = useState();
-  const auth = getAuth();
+import { LogBox } from "react-native";
 
-  useEffect(() => {
-    return auth.onAuthStateChanged((user) => {
-      console.log(user);
-      setUser(user.auth.currentUser);
-    });
-  }, [auth]);
+LogBox.ignoreLogs(["Setting a timer"]);
 
-  const [movies, setMovies] = useState([]);
+const MoviesPage = ({ navigation }) => {
+  const [moviesData, setMoviesData] = useState([]);
 
-  function handleOnPress() {
-    // TODO Use currentUser Obj
-    const user = "Hamas";
-    navigation.navigate("View Movie", { user });
+  function handlePress(movieID) {
+    // // TODO Use currentUser Obj
+    // const user = "Hamas";
+    navigation.navigate("View Movie", { movieID });
   }
 
+  useEffect(() => {
+    async function getMovieData() {
+      const docRef = doc(db, "movieData", "qWEaphXhRnZGlArWxqIo");
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setMoviesData(docSnap.data().movies);
+      }
+    }
+    getMovieData();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={handleOnPress}>
-        <Text style={styles.title}>View MovieDetails</Text>
-      </TouchableOpacity>
-    </View>
+    <ScrollView>
+      {moviesData.length !== 0 ? (
+        moviesData.map((movie) => (
+          <View key={movie.id}>
+            <Card onPress={() => handlePress(movie.id)}>
+              <Card.Cover
+                source={{
+                  uri: movie.posterUrl,
+                }}
+              />
+              <Card.Content>
+                <Title>{movie.title}</Title>
+                <Paragraph>{movie.plot}</Paragraph>
+              </Card.Content>
+            </Card>
+          </View>
+        ))
+      ) : (
+        <Text>Loading movies</Text>
+      )}
+    </ScrollView>
   );
-}
+};
 
-{
-  /* <MoviesList
-movies={movies}
-/> */
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    padding: 10,
-  },
-});
+export default MoviesPage;
