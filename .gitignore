@@ -3,6 +3,7 @@ babel.config.js
 *.cache
 # .expo/cache/
 .expo
+.expo/packager-info.json
 # Logs
 logs
 *.log

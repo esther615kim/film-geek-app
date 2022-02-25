@@ -25,17 +25,15 @@ export default function MultipleChoice() {
   const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
   const [LISTDATA, setLISTDATA] = useState([])
   const [questAnsPair, setQuestAnsPair] = useState({})
-  const formatQns = []
   
   useEffect(() => {
     async function readQuizData() {
       const docRef = doc(db, "quizData", "pSf1qAQUlGaztNDrcBjB");
       console.log("Reading quizData in Firestore...");
       const docSnap = await getDoc(docRef);
-
+      
       if (docSnap.exists()) {
         const questionData = docSnap.data().results;
-        console.log(questionData, '<< initial questionData')
         console.log("quizData retrieved.");
         let newObject;
         // Add the correct answer to the incorrect_answers array at a random index between 0 and 2.
@@ -45,17 +43,17 @@ export default function MultipleChoice() {
           newObject = { ...newObject, [questionData.question]: questionData.correct_answer };
         });
         setQuestAnsPair(newObject);
+        const formatQns = []
         questionData.forEach((question) => {
           formatQns.push({
             title : question.question,
-            data : question.incorrect_answers,
-            correct_option : question.correct_answer
+            data : question.incorrect_answers
           })
           
         })
         // console.log(formatQns, '<<< formatQns')
         setLISTDATA(formatQns)
-        console.log(LISTDATA, '<< nested LISTDATA')
+        
         setQuizData(questionData);
         // console.log(questionData, '<<< questionData')
       }
@@ -64,12 +62,8 @@ export default function MultipleChoice() {
     readQuizData();
   }, []);
   // console.log(quizData, '<<< quizData')
-  // console.log(questAnsPair, '<< questAnsPair')
-  // console.log(formatQns, '<<< formatQns')
-  console.log(LISTDATA, '<< LISTDATA OUTSIDE')
-  // console.log(LISTDATA[0].data[0], '<< LISTDATA[0].data[0]')
-  // const currentQuest = LISTDATA[0]["data"]
-  // console.log(currentQuest, '<< LISTDATA[0] dummy2')
+  console.log(questAnsPair, '<< questAnsPair')
+
 
   const [selectedAns, setSelectedAns] = useState([])
     
@@ -116,22 +110,6 @@ export default function MultipleChoice() {
 
 
   return (
-
-      // <View>
-
-      //   {
-      //     currentQuest.forEach((elementListData) => (
-      //       <TouchableOpacity
-      //       key={elementListData}
-      //       style={styles.listItem}
-      //       >
-      //         <Text style={styles.listItem}>{elementListData}</Text>
-      //       </TouchableOpacity>
-      //     ))
-      //   }
-
-      // </View>
-
 
     <SafeAreaView style={styles.parentView}>
       <SectionList
