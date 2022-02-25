@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Platform, Button, Alert, useColorScheme } from "react-native";
-import { TextInput, Headline } from "react-native-paper";
+import { Text, View, StyleSheet, Platform } from "react-native";
+import { TextInput, Headline,Button } from "react-native-paper";
 import { Link } from "@react-navigation/native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -33,7 +33,7 @@ export default function LoginPage() {
   };
   return (
     <>
-      <View style={styles.container}>
+      <View style={{ backgroundColor: "#333540", padding: 40, flex: 1 }}>
         <Headline style={{ color: "#fff" }}>Login</Headline>
         <View>
           <Text style={styles.label}>Email</Text>
@@ -57,24 +57,22 @@ export default function LoginPage() {
               setPassword(password);
             }}
           ></TextInput>
-
-          <Button title="Log In" onPress={handleSubmit} />
+           <Button icon="account" mode="contained" onPress={handleSubmit}>Log In</Button>
         </View>
         {/* navigate to Signup */}
         <Text style={styles.signup}>Sign Up?</Text>
-        <GAuth />
+        <View style={styles.view}>
+          <GAuth />
+        </View>
       </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 40,
+  view: {
     flex: 1,
     alignItems: "center",
-    // paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#333540",
   },
   title: {
     fontSize: 20,
@@ -91,20 +89,22 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   signup: {
-    textAlign:"center",
-    fontSize:16,
+    textAlign: "center",
+    fontSize: 16,
     color: "#fff",
-    padding:40,
-    paddingBottom:20
+    padding: 40,
+    paddingBottom: 20,
   },
   input: {
     minWidth: 240,
     height: 40,
   },
+  button:{
+    backgroundColor:"blue"
+  },
   password: {
     width: "100%",
     height: 40,
-    marginBottom:40
+    marginBottom: 40,
   },
-
 });
