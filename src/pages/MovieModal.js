@@ -11,6 +11,7 @@ import {
   Button,
   FlatList,
   Alert,
+  ScrollView,
 } from "react-native";
 
 import { getComments, deleteComment } from "../utils/api";
@@ -70,7 +71,7 @@ export default function MovieModal({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <MovieDetail />
       <View>
         <Text style={styles.title}>Add a Comment</Text>
@@ -98,7 +99,7 @@ export default function MovieModal({ navigation }) {
       <View>
         <CommentsList comments={comments} handleOnDeleteComment={handleDeleteComment} />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
