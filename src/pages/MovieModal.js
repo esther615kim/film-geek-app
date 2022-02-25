@@ -43,7 +43,8 @@ export default function MovieModal({ navigation }) {
       setErrors((curr) => [...curr, "Comment must not be blank."]);
     } else {
       const newComment = { film_id, username, comment };
-      postUserComment(newComment).then((id) => { // DP
+      postUserComment(newComment).then((id) => {
+        // DP
         newComment.comment_id = id;
         newComment.created_at = new Date();
         setComments((currComments) => [newComment, ...currComments]);
@@ -55,7 +56,7 @@ export default function MovieModal({ navigation }) {
   function handleDeleteComment(comment_id) {
     // TODO Optimistic Render
     setComments((currComments) =>
-      currComments.filter((comment) => comment.comment_id !== comment_id)
+      currComments.filter((comment) => comment.comment_id !== comment_id),
     );
     deleteComment(comment_id).catch(console.info("Delete Comment Failed"));
   }
@@ -63,11 +64,7 @@ export default function MovieModal({ navigation }) {
   function ErrorMessages({ errors }) {
     return (
       <View>
-        <Text>
-          {errors.length > 0 ? (
-            <Text style={styles.errorText}>{errors[0]}</Text>
-          ) : null}
-        </Text>
+        <Text>{errors.length > 0 ? <Text style={styles.errorText}>{errors[0]}</Text> : null}</Text>
       </View>
     );
   }
@@ -88,7 +85,7 @@ export default function MovieModal({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="comment"
-          multiline="true"
+          multiline={true}
           numberOfLines={3}
           value={comment}
           onChangeText={setComment}
@@ -99,10 +96,7 @@ export default function MovieModal({ navigation }) {
         <ErrorMessages errors={errors}></ErrorMessages>
       </View>
       <View>
-        <CommentsList
-          comments={comments}
-          handleOnDeleteComment={handleDeleteComment}
-        />
+        <CommentsList comments={comments} handleOnDeleteComment={handleDeleteComment} />
       </View>
     </View>
   );
