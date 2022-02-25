@@ -15,6 +15,7 @@ function SettingsScreen() {
     </View>
   );
 }
+// could you add a path for SignUpPage?
 
 const Tab = createBottomTabNavigator();
 
