@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Platform, Button, Alert } from "react-native";
+import { Text, View, Button, StyleSheet, Platform, Alert } from "react-native";
 import { TextInput, Headline } from "react-native-paper";
 import { Link } from "@react-navigation/native";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -42,7 +42,7 @@ export default function SignUpPage() {
   };
   return (
     <>
-      <form style={{ padding: 20 }}>
+      <View style={{ backgroundColor: "#333540", padding: 40, flex: 1 }}>
         <Headline style={{ color: "#fff" }}>Sign Up</Headline>
         <View>
           <Text style={styles.label}>Username</Text>
@@ -80,8 +80,11 @@ export default function SignUpPage() {
 
         <Button style={styles.button} title="Register" onPress={handleSubmit} />
 
-        <Text style={styles.label}>Already Sign up?</Text>
-      </form>
+        {/* navigate to Signup */}
+        <Link to={{ screen: "Home" }}>
+          <Text >Already Signed up?</Text>
+        </Link>
+      </View>
     </>
   );
 }

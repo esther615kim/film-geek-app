@@ -62,8 +62,8 @@ export default function LoginPage() {
           </Button>
         </View>
         {/* navigate to Signup */}
-        <Link style={styles.signup} to={{ screen: "Quiz" }}>
-          <Text >Sign Up?</Text>
+        <Link   to={{ screen: "Quiz" }}>
+          <Text>Sign Up?</Text>
         </Link>
         <View style={styles.view}>
           <GAuth />
