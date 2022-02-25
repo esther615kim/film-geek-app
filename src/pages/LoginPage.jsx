@@ -62,7 +62,9 @@ export default function LoginPage() {
           </Button>
         </View>
         {/* navigate to Signup */}
-        <Link   to={{ screen: "Quiz" }}>
+        <Link
+        style={{padding:20,textAlign:"center",color:"#fff"}} 
+        to={{ screen: "Signup" }}>
           <Text>Sign Up?</Text>
         </Link>
         <View style={styles.view}>
