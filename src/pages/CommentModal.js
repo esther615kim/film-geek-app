@@ -18,24 +18,53 @@ import { postUserComment } from "../utils/api";
 export default function CommentModal({ navigation }) {
   // TODO Add Current User
   const [username, setUsername] = useState("User1");
+  const [comment, setComment] = useState("");
+  const [errors, setErrors] = useState([]);
 
-  const [comment, setComment] = useState("Great Action Film");
+  // TODO Use actual film
+  const film_id = Math.floor(Math.random() * 10 + 1);
 
   function handleOnSubmit() {
-    console.log('submit comment: ', comment, comment.length, comment.isEmpty());
-    if ((!comment) || comment.length === 0) {
-      Alert.alert("Comment must not be blank.");
+    if (!comment) {
+      // Not showing in Web
+      Alert.alert("comment", "Comment must not be blank.");
+      setErrors((curr) => [...curr, "Comment must not be blank."]);
     } else {
       const newComment = { film_id: "key3", username, comment };
       postUserComment(newComment).then((id) => {
         newComment.comment_id = id;
         navigation.navigate("Comments", { newComment });
       });
+      setErrors([]);
     }
   }
 
-  function handleOnPress() {
-    console.log("cmt", comment);
+  function ErrorMessages({ errors }) {
+    return (
+      <View>
+        <Text>
+          {errors.length > 0 
+          ? (<Text style={styles.errorText}>{errors[0]}</Text>) 
+          : null}
+        </Text>
+      </View>
+    );
+/*
+    if (errors.length > 0) {
+      console.log("Display Errors");
+      return (
+        <View>
+          <FlatList
+            data={errors}
+            renderItem={({ error }) => <Text>{error}</Text>}
+            keyExtractor={(item, index) => index}
+          ></FlatList>
+        </View>
+      );
+    } else {
+      console.log("Display NO Errors", errors);
+      return <></>;
+    }*/
   }
 
   return (
@@ -60,6 +89,7 @@ export default function CommentModal({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleOnSubmit}>
         <Text style={styles.buttonText}>Add</Text>
       </TouchableOpacity>
+      <ErrorMessages errors={errors}></ErrorMessages>
     </View>
   );
 }
@@ -87,5 +117,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  errorText: {
+    color: "red",
   },
 });
