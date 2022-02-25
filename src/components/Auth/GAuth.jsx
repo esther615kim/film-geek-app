@@ -2,7 +2,6 @@ import * as React from "react";
 import { View } from "react-native";
 import { Avatar } from "react-native-paper";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-const G_LOGO = "../../../assets//GLogo.png";
 
 const GAuth = () => {
   const handleClickGoogle = async () => {
@@ -13,7 +12,6 @@ const GAuth = () => {
       const result = signInWithPopup(auth, provider);
 
       const user = result.user;
-      console.log("result", result);
 
       const userRef = doc(db, "users", user.uid);
       // check if user exists
@@ -38,8 +36,12 @@ const GAuth = () => {
   };
   return (
     <View>
-      {/* <Avatar.Image size={60} source={require(G_LOGO)} /> */}
-      <Avatar.Icon onClick={handleClickGoogle} size={60} icon="google" />
+      <Avatar.Image
+        onClick={handleClickGoogle}
+        style={{ backgroundColor: "transparent" }}
+        size={60}
+        source={require("./googleIcon.svg")}
+      />
     </View>
   );
 };

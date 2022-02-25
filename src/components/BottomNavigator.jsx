@@ -7,6 +7,7 @@ import HomePage from './../pages/HomePage';
 import LoginPage from './../pages/LoginPage';
 import ProfilePage from './../pages/ProfilePage';
 import MultipleChoice from './Quizzes/MultipleChoice';
+import SignUpPage from './../pages/SignUpPage';
 
 function SettingsScreen() {
   return (
@@ -15,6 +16,7 @@ function SettingsScreen() {
     </View>
   );
 }
+// could you add a path for SignUpPage?
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +43,7 @@ export default function MyTabs() {
       })}
     >
       <Tab.Screen name="Home" component={LoginPage} />
+      <Tab.Screen name="Signup" component={SignUpPage} />
       <Tab.Screen name="Profile" component={ProfilePage} />
       <Tab.Screen name="Quiz" component={MultipleChoice} />
     </Tab.Navigator>

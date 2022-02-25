@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Platform, Button, Alert } from "react-native";
+import { Text, View, Button, StyleSheet, Platform, Alert } from "react-native";
 import { TextInput, Headline } from "react-native-paper";
 import { Link } from "@react-navigation/native";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  getAdditionalUserInfo,
+} from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./../firebase/config";
+import { addUser } from "../redux/features/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function SignUpPage() {
   const [name, setName] = useState("");
@@ -13,8 +20,12 @@ export default function SignUpPage() {
 
   const formData = { name, email, password };
 
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    dispatch(addUser(formData));
 
     try {
       const auth = getAuth();
@@ -42,7 +53,7 @@ export default function SignUpPage() {
   };
   return (
     <>
-      <form style={{ padding: 20 }}>
+      <View style={{ backgroundColor: "#333540", padding: 40, flex: 1 }}>
         <Headline style={{ color: "#fff" }}>Sign Up</Headline>
         <View>
           <Text style={styles.label}>Username</Text>
@@ -68,6 +79,8 @@ export default function SignUpPage() {
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
+            secureTextEntry
+            right={<TextInput.Icon name="eye" />}
             value={password}
             onChangeText={(password) => {
               setPassword(password);
@@ -75,13 +88,18 @@ export default function SignUpPage() {
           ></TextInput>
         </View>
         <View>
-          <TextInput style={styles.password}></TextInput>
+          <TextInput
+            style={styles.password}
+          ></TextInput>
         </View>
 
         <Button style={styles.button} title="Register" onPress={handleSubmit} />
 
-        <Text style={styles.label}>Already Sign up?</Text>
-      </form>
+        {/* navigate to Signup */}
+        <Link style={{padding:20,textAlign:"center",color:"#fff"}} to={{ screen: "Home" }}>
+          <Text >Already signed up?</Text>
+        </Link>
+      </View>
     </>
   );
 }
@@ -109,6 +127,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 40,
     marginTop: 20,
+    marginBottom: 20,
   },
 
   button: {

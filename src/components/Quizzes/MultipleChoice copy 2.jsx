@@ -29,12 +29,12 @@ export default function MultipleChoice() {
   useEffect(() => {
     async function readQuizData() {
       const docRef = doc(db, "quizData", "pSf1qAQUlGaztNDrcBjB");
-      console.log("Reading quizData in Firestore...");
+      // console.log("Reading quizData in Firestore...");
       const docSnap = await getDoc(docRef);
       
       if (docSnap.exists()) {
         const questionData = docSnap.data().results;
-        console.log("quizData retrieved.");
+        // console.log("quizData retrieved.");
         let newObject;
         // Add the correct answer to the incorrect_answers array at a random index between 0 and 2.
         questionData.forEach((questionData) => {
