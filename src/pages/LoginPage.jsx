@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Platform } from "react-native";
-import { TextInput, Headline,Button } from "react-native-paper";
+import { TextInput, Headline, Button } from "react-native-paper";
 import { Link } from "@react-navigation/native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -57,10 +57,14 @@ export default function LoginPage() {
               setPassword(password);
             }}
           ></TextInput>
-           <Button icon="account" mode="contained" onPress={handleSubmit}>Log In</Button>
+          <Button icon="account" mode="contained" onPress={handleSubmit}>
+            Log In
+          </Button>
         </View>
         {/* navigate to Signup */}
-        <Text style={styles.signup}>Sign Up?</Text>
+        <Link style={styles.signup} to={{ screen: "Quiz" }}>
+          <Text >Sign Up?</Text>
+        </Link>
         <View style={styles.view}>
           <GAuth />
         </View>
@@ -99,8 +103,8 @@ const styles = StyleSheet.create({
     minWidth: 240,
     height: 40,
   },
-  button:{
-    backgroundColor:"blue"
+  button: {
+    backgroundColor: "blue",
   },
   password: {
     width: "100%",

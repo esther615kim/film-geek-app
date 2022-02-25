@@ -36,8 +36,11 @@ const GAuth = () => {
   };
   return (
     <View>
-      <Avatar.Image style={{backgroundColor:"transparent"}}size={60} source={require('../assets/googleIcon.svg')} />
-      {/* <Avatar.Icon onClick={handleClickGoogle} size={60} icon="google" /> */}
+      <Avatar.Image  
+      onClick={handleClickGoogle}  
+      style={{backgroundColor:"transparent"}}
+      size={60} 
+      source={require('../assets/googleIcon.svg')} />
     </View>
   );
 };
