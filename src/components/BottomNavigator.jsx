@@ -1,10 +1,12 @@
 import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LoginPage from "./pages/LoginPage";
-import ProfilePage from "./pages/ProfilePage";
-import MultipleChoice from "./components/Quizzes/MultipleChoice";
+
 import Ionicons from "react-native-vector-icons/Ionicons";
+import HomePage from './../pages/HomePage';
+import LoginPage from './../pages/LoginPage';
+import ProfilePage from './../pages/ProfilePage';
+import MultipleChoice from './Quizzes/MultipleChoice';
 
 function SettingsScreen() {
   return (
