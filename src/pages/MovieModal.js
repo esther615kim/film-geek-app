@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-import Constants from "expo-constants";
-
 import {
   Text,
   TextInput,
@@ -13,17 +10,17 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-
 import { getComments, deleteComment } from "../utils/api";
 import { postUserComment } from "../utils/api";
-
 import MovieDetail from "../components/Movies/MovieDetail";
 import CommentsList from "../components/Comments/CommentsList";
 
-export default function MovieModal({ navigation, film_id, username }) {
+export default function MovieModal({ route, navigation }) {
+  const { movieID } = route.params;
+  console.log(movieID);
   // TODO Add Current User
   //const [username, setUsername] = useState("Hamas");
-  //const [film_id, setFilm_id] = useState(1);
+  //const [movieID, setmovieID] = useState(1);
   const [comments, setComments] = useState("");
   const [errors, setErrors] = useState([]);
   const [comment, setComment] = useState([]);
@@ -40,7 +37,7 @@ export default function MovieModal({ navigation, film_id, username }) {
       Alert.alert("comment", "Comment must not be blank.");
       setErrors((curr) => [...curr, "Comment must not be blank."]);
     } else {
-      const newComment = { film_id, username, comment };
+      const newComment = { movieID, username, comment };
       postUserComment(newComment).then((id) => {
         // DP
         newComment.comment_id = id;

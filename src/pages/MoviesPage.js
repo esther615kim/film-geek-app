@@ -1,21 +1,18 @@
 import { useState } from "react";
 import { Text, View, ScrollView } from "react-native";
-import { doc, getDoc, addDoc, collection } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect } from "react";
 import { Card, Title, Paragraph } from "react-native-paper";
-
-import { LogBox } from "react-native";
-
-LogBox.ignoreLogs(["Setting a timer"]);
 
 const MoviesPage = ({ navigation }) => {
   const [moviesData, setMoviesData] = useState([]);
 
   function handlePress(movieID) {
+    console.log(movieID);
     // // TODO Use currentUser Obj
     // const user = "Hamas";
-    navigation.navigate("View Movie", { movieID });
+    navigation.navigate("View Movie", { movieID: movieID });
   }
 
   useEffect(() => {
