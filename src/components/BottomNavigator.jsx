@@ -1,22 +1,32 @@
-import { Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
 import Ionicons from "react-native-vector-icons/Ionicons";
-import HomePage from './../pages/HomePage';
-import LoginPage from './../pages/LoginPage';
-import ProfilePage from './../pages/ProfilePage';
-import MultipleChoice from './Quizzes/MultipleChoice';
-import SignUpPage from './../pages/SignUpPage';
+import LoginPage from "../pages/LoginPage";
+import SignUpPage from "../pages/SignUpPage";
+import ProfilePage from "../pages/ProfilePage";
+import MultipleChoice from "./Quizzes/MultipleChoice";
+import MoviesPage from "../pages/MoviesPage";
+import MovieModal from "../pages/MovieModal";
 
-function SettingsScreen() {
+import { createStackNavigator } from "@react-navigation/stack";
+const RootStack = createStackNavigator();
+const loggedIn = false;
+
+export const StackNavigator = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings!</Text>
-    </View>
+    <RootStack.Navigator>
+      <RootStack.Group>
+        <RootStack.Screen name="Movies" component={loggedIn ? MoviesPage : LoginPage} />
+      </RootStack.Group>
+      <RootStack.Group screenOptions={{ presentation: "modal" }}>
+        <RootStack.Screen name="View Movie" component={MovieModal} />
+        {/* <RootStack.Screen name="Add Comment" component={CommentModal} /> */}
+      </RootStack.Group>
+      <RootStack.Group screenOptions={{ presentation: "modal" }}>
+        <RootStack.Screen name="Sign Up" component={SignUpPage} />
+      </RootStack.Group>
+    </RootStack.Navigator>
   );
-}
-// could you add a path for SignUpPage?
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -34,16 +44,14 @@ export default function MyTabs() {
           } else if (route.name === "Quiz") {
             iconName = "list";
           }
-
-          // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "grey",
       })}
     >
-      <Tab.Screen name="Home" component={LoginPage} />
-      <Tab.Screen name="Signup" component={SignUpPage} />
+      <Tab.Screen name="Home" component={StackNavigator}></Tab.Screen>
+
       <Tab.Screen name="Profile" component={ProfilePage} />
       <Tab.Screen name="Quiz" component={MultipleChoice} />
     </Tab.Navigator>
