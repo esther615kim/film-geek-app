@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Platform } from "react-native";
 import { TextInput, Headline, Button } from "react-native-paper";
-import { Link } from "@react-navigation/native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "./../firebase/config";
 import GAuth from "../components/Auth/GAuth";
 
-export default function LoginPage() {
+export default function LoginPage({ navigation }) {
+  const handleSignUpPressed = () => {
+    navigation.navigate("Sign Up");
+  };
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -61,12 +62,12 @@ export default function LoginPage() {
             Log In
           </Button>
         </View>
-        {/* navigate to Signup */}
-        <Link
-        style={{padding:20,textAlign:"center",color:"#fff"}} 
-        to={{ screen: "Signup" }}>
-          <Text>Sign Up?</Text>
-        </Link>
+        <Text
+          style={{ padding: 20, textAlign: "center", color: "#fff" }}
+          onPress={() => handleSignUpPressed()}
+        >
+          Sign Up?
+        </Text>
         <View style={styles.view}>
           <GAuth />
         </View>
