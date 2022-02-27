@@ -2,16 +2,11 @@ import React, { useState } from "react";
 import { Text, View, Button, StyleSheet, Platform, Alert } from "react-native";
 import { TextInput, Headline } from "react-native-paper";
 import { Link } from "@react-navigation/native";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  getAdditionalUserInfo,
-} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./../firebase/config";
 import { useDispatch } from "react-redux";
-import { ADD_USER } from '../redux/features/userSlice';
+import { ADD_USER } from "../redux/features/userSlice";
 
 export default function SignUpPage() {
   const [name, setName] = useState("");
@@ -22,8 +17,7 @@ export default function SignUpPage() {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = 
-  async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
@@ -39,7 +33,7 @@ export default function SignUpPage() {
 
       const formDataCopy = { ...formData };
       delete formDataCopy.password;
-      formDataCopy.timestamp = serverTimestamp(); // timestamp
+      formDataCopy.timestamp = serverTimestamp();
 
       console.log(formDataCopy);
 
@@ -47,7 +41,6 @@ export default function SignUpPage() {
 
       console.log("user registered");
       dispatch(ADD_USER(formData));
-
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +89,14 @@ export default function SignUpPage() {
 
         {/* navigate to Signup */}
         <Link style={{ padding: 20, textAlign: "center", color: "#fff" }} to={{ screen: "Home" }}>
-          <Text>Already signed up?</Text>
+          <Text
+            onPress={() => {
+              console.log("move to Login");
+              // navigation.navigate("LoginPage");
+            }}
+          >
+            Already signed up?
+          </Text>
         </Link>
       </View>
     </>
