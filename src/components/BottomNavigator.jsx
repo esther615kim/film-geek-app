@@ -14,8 +14,8 @@ const loggedIn = false;
 export const StackNavigator = () => {
   return (
     <RootStack.Navigator>
-      <RootStack.Group>
-        <RootStack.Screen name="Movies" component={loggedIn ? MoviesPage : LoginPage} />
+      <RootStack.Group >
+        <RootStack.Screen options={{ headerShown: false }} name="Landing" component={loggedIn ? MoviesPage : LoginPage} />
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal" }}>
         <RootStack.Screen name="View Movie" component={MovieModal} />

@@ -31,7 +31,7 @@ export default function LoginPage({ navigation }) {
       const user = userCredential.user;
       if (userCredential.user) {
         // TODO: direct it to Homepage
-        navigation.navigate("Quiz");
+        navigation.navigate("Landing");
         dispatch(ADD_USER(formData));
       }
     } catch (err) {

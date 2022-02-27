@@ -8,7 +8,7 @@ import { db } from "./../firebase/config";
 import { useDispatch } from "react-redux";
 import { ADD_USER } from "../redux/features/userSlice";
 
-export default function SignUpPage() {
+export default function SignUpPage({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -92,7 +92,7 @@ export default function SignUpPage() {
           <Text
             onPress={() => {
               console.log("move to Login");
-              // navigation.navigate("LoginPage");
+              navigation.navigate("Landing");
             }}
           >
             Already signed up?
