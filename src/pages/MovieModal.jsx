@@ -5,8 +5,6 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Button,
-  FlatList,
   Alert,
   ScrollView,
 } from "react-native";
@@ -19,7 +17,7 @@ export default function MovieModal({ route, navigation }) {
   const { movieID } = route.params;
   console.log(movieID);
   // TODO Add Current User
-  //const [username, setUsername] = useState("Hamas");
+  const [username, setUsername] = useState("Hamas");
   //const [movieID, setmovieID] = useState(1);
   const [comments, setComments] = useState("");
   const [errors, setErrors] = useState([]);

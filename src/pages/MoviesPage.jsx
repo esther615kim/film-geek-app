@@ -46,7 +46,7 @@ const MoviesPage = ({ navigation }) => {
           </View>
         ))
       ) : (
-        <Text>Loading movies</Text>
+        <Text>Loading movies...</Text>
       )}
     </ScrollView>
   );

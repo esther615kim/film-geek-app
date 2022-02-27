@@ -1,23 +1,28 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import LoginPage from "./../pages/LoginPage";
-import ProfilePage from "./../pages/ProfilePage";
+import LoginPage from "../pages/LoginPage";
+import SignUpPage from "../pages/SignUpPage";
+import ProfilePage from "../pages/ProfilePage";
 import MultipleChoice from "./Quizzes/MultipleChoice";
 import MoviesPage from "../pages/MoviesPage";
 import MovieModal from "../pages/MovieModal";
 
 import { createStackNavigator } from "@react-navigation/stack";
 const RootStack = createStackNavigator();
+const loggedIn = false;
 
 export const StackNavigator = () => {
   return (
     <RootStack.Navigator>
       <RootStack.Group>
-        <RootStack.Screen name="Movies" component={MoviesPage} />
+        <RootStack.Screen name="Movies" component={loggedIn ? MoviesPage : LoginPage} />
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal" }}>
         <RootStack.Screen name="View Movie" component={MovieModal} />
         {/* <RootStack.Screen name="Add Comment" component={CommentModal} /> */}
+      </RootStack.Group>
+      <RootStack.Group screenOptions={{ presentation: "modal" }}>
+        <RootStack.Screen name="Sign Up" component={SignUpPage} />
       </RootStack.Group>
     </RootStack.Navigator>
   );
@@ -45,7 +50,8 @@ export default function MyTabs() {
         tabBarInactiveTintColor: "grey",
       })}
     >
-      <Tab.Screen name="Home" component={StackNavigator} />
+      <Tab.Screen name="Home" component={StackNavigator}></Tab.Screen>
+
       <Tab.Screen name="Profile" component={ProfilePage} />
       <Tab.Screen name="Quiz" component={MultipleChoice} />
     </Tab.Navigator>

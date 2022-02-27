@@ -88,16 +88,14 @@ export default function SignUpPage() {
           ></TextInput>
         </View>
         <View>
-          <TextInput
-            style={styles.password}
-          ></TextInput>
+          <TextInput style={styles.password}></TextInput>
         </View>
 
         <Button style={styles.button} title="Register" onPress={handleSubmit} />
 
         {/* navigate to Signup */}
-        <Link style={{padding:20,textAlign:"center",color:"#fff"}} to={{ screen: "Home" }}>
-          <Text >Already signed up?</Text>
+        <Link style={{ padding: 20, textAlign: "center", color: "#fff" }} to={{ screen: "Home" }}>
+          <Text>Already signed up?</Text>
         </Link>
       </View>
     </>
