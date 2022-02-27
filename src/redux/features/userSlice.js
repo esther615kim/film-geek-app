@@ -1,8 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    getAdditionalUserInfo,
+  } from "firebase/auth";
+  import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 const initialState = {
-    name:'',
-    email:'',
+    userInfo:[],
+    isLoggedin:false
 }
 
 
@@ -10,15 +17,22 @@ const userSlice = createSlice({
     name:"user",
     initialState,
     reducers:{
-        // add user
-        addUser(state,action){
+        // login
+        ADD_USER(state,action){
             const newUser = {...action.payload};
-            console.log("newUser", newUser);
-
+            state.userInfo.push(newUser);
+            state.isLoggedin = true;
+            console.log("user loggedin",state.userInfo, state.isLoggedin);
+        },
+        // logout
+        LOGOUT(state){
+            state.userInfo = null;
+            state.isLoggedin = false;
+            console.log("user logged out",state);
         }
-        // check user
+        
     }
 })
 
-export const {addUser} =userSlice.actions;
+export const {ADD_USER,LOGOUT} =userSlice.actions;
 export default userSlice.reducer;

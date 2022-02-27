@@ -10,8 +10,8 @@ import {
 } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./../firebase/config";
-import { addUser } from "../redux/features/userSlice";
 import { useDispatch } from "react-redux";
+import { ADD_USER } from '../redux/features/userSlice';
 
 export default function SignUpPage() {
   const [name, setName] = useState("");
@@ -24,8 +24,6 @@ export default function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    dispatch(addUser(formData));
 
     try {
       const auth = getAuth();
@@ -47,6 +45,8 @@ export default function SignUpPage() {
       await setDoc(doc(db, "users", user.uid), formDataCopy);
 
       console.log("user registered");
+      dispatch(ADD_USER(formData));
+
     } catch (err) {
       console.log(err);
     }
