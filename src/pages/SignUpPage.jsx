@@ -22,7 +22,8 @@ export default function SignUpPage() {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = 
+  async (e) => {
     e.preventDefault();
 
     try {
