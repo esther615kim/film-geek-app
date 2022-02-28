@@ -10,7 +10,7 @@ import {
   SectionList,
   StyleSheet, 
 } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { Button } from "react-native-paper";
@@ -20,22 +20,39 @@ const generateRandomNumber = (min, max) => {
 };
 
 
-const ItemComp = (formattedOptns) => {
-  console.log(formattedOptns), '<< ItemComp-formattedOptns'
-  const destructured = formattedOptns
+  // highlight Function start -------------
+  
+  const highlight1 = (itemId) => {
+    const myRefs = React.useRef([]); 
 
-    return (
-      <View style={styles.listItem}>
-        <TouchableOpacity>
-        <Text style={styles.listText}>{formattedOptns.title}</Text>
+    let clickedBtn = 1
+    console.log(itemId,'<<< highlight props itemId') 
 
-        </TouchableOpacity>
+      myRefs.current[itemId].setNativeProps({style: {backgroundColor:'green'}});
+
+    console.log(clickedBtn,'<<< itemId') 
+
+    const resetColors = () => {
+        myRefs.current.forEach(ref => 
+            ref.setNativeProps({style:{backgroundColor:'transparent'}})
+        );
+      }
+  }
+  
+// highlight Function end --------------
+
+const ListHeader = (item) => {
+  console.log(item, '<<< ListHeader item')
+  return (
+      <View style={styles.listHeader}>
+        <Text style={styles.listHeaderText}>{item}</Text>
+
       </View>
+  );
+};
 
-      
-    )
+const correctAnsArr = []
 
-}
 
 
 export default function MultipleChoice() {
@@ -45,13 +62,25 @@ export default function MultipleChoice() {
   const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
   const [LISTDATA, setLISTDATA] = useState([])
 
+  const [questCount, setQuestCount] = useState(0) // <-- increment 'onNext'
+  const [scoreCount, setScoreCount] = useState(0) // <--- inc/decrement 'onNext'
   const [currQuestion, setCurrQuestion] = useState([])
-  const [currOptions, setcurrOptions] = useState([])
+  const [currAnswer, setCurrAnswer] = useState("")
+  const [correctAns, setCorrectAns] = useState("")
 
+
+
+  const [currOptions, setcurrOptions] = useState([])
   const [questAnsPair, setQuestAnsPair] = useState({})
-  const [currQName, setCurrQName] = useState([])
-  const formatQns = []
-  const formatOptns = []
+  const [currQName, setCurrQName] = useState("")
+  let formatQns = []
+  let formatOptns = []
+
+  //button-click
+  const [clickedBtn, setClickedBtn] = useState([]) // top
+  // const myRefs = React.useRef([]); // <<--- myRefs not found when rendered outside
+  
+  // -----------------------
   
   useEffect(() => {
     async function readQuizData() {
@@ -61,7 +90,7 @@ export default function MultipleChoice() {
 
       if (docSnap.exists()) {
         const questionData = docSnap.data().results;
-        console.log(questionData, '<< initial questionData')
+        // console.log(questionData, '<< initial questionData')
         console.log("quizData retrieved.");
         let newObject;
         // Add the correct answer to the incorrect_answers array at a random index between 0 and 2.
@@ -70,9 +99,9 @@ export default function MultipleChoice() {
           questionData.incorrect_answers.splice(randomIndex, 0, questionData.correct_answer);
           newObject = [{ ...newObject, [questionData.question]: questionData.correct_answer }];
         });
-
         //arr of objects for each question with key:value  'question': 'answer'
-        setQuestAnsPair(newObject); 
+        setQuestAnsPair(newObject); // << may remove
+        
         // console.log(newObject, '<< newObject arr')
         questionData.forEach((question) => {
           formatQns.push({
@@ -82,49 +111,149 @@ export default function MultipleChoice() {
           })
           
         })
-        formatOptns.push(questionData[0].incorrect_answers)
-        formatOptns.map( (element) => {return {'option': element} })
+        console.log(questionData[questCount].incorrect_answers, '<< questCount incorrectAnswers') // change this to "current Question state" dynamic question counter later
+        // const [questionCounter, setQuestionCounter] = useState(0)..then rewrite below as..
+        //formatOptns.push(questionData[questionCounter].incorrect_answers)
+        formatOptns.push(questionData[questCount].incorrect_answers)
+        formatOptns.map( (element, index) => {return { 'option': element} })
         
-
-        const formattedOptns = questionData[0].incorrect_answers.map((element) => {
-          return {'option': element}
+        //perform map on questionData - data:['option1,'option 2'] array so that we get [{option: "option1"}, {option: 'option2'}] 
+        const formattedOptns = questionData[questCount].incorrect_answers.map((element, index) => {
+          return {id: index,'option': element}
           
         }) 
 
         
-        setcurrOptions(formattedOptns)
+
+        // console.log(formatOptnsObj, '<< formatOptnsObj')
+        console.log(formatOptns, '<< formatOptns postMarrrch1')
+        // console.log(formattedOptns, '<< formattedOptns X1')
+        await setcurrOptions(formattedOptns)
+        console.log(currOptions, '<< currOptions pls')
   
 
+        // console.log(formatQns, '<<< formatQns 58')
         setLISTDATA(formatQns)
         console.log(LISTDATA, '<< listDatahi')
         const formatQnsArr = []
-        formatQnsArr.push(formatQns[0])
+        formatQnsArr.push(formatQns[questCount])
         setCurrQuestion(formatQnsArr)
+        
+        console.log(currQuestion[questCount].correct_option, '<< currQuestion.correct_option ')
+        setCorrectAns(currQuestion[questCount].correct_option)
+        console.log(correctAns, '<< correctAns state') 
 
+        // console.log(formatOptns, '<<formatOptns')
+        console.log(setcurrOptions, '<<< setcurrOptions')
 
-        const questionTitle = [{title: 'anything'}]
-        questionTitle.title = formatQns[0].title
-        setCurrQName(questionTitle)
-
-
+        const questionTitle = [{title: formatQns[questCount].title}]
+        questionTitle.title = formatQns[questCount].title
+        setCurrQName(questionTitle.title)
+        console.log(currQName, '<<< currQName')
+        console.log(questionTitle, '<<questionTitle')
       }
-  
     }
     readQuizData();
     // extract options data into array
-
-
-
-
-  }, []);
+  }, [questCount]);
   
-  const renderzItem = ({ item }) => (
-    <ItemComp title={item.option}/>
+
+  const resetColors = () => {
+    myRefs.current.forEach(ref => 
+        ref.setNativeProps({style:{backgroundColor:'transparent'}})
+    );
+  }
+  
+  const myRefs = React.useRef([]);
+  const ItemComp = (formattedOptns) => {
+    console.log(formattedOptns, '<< ItemComp-formattedOptns New X1')
+  
+    // const [clickedBtn, setClickedBtn] = useState([])
+    const destructured = formattedOptns
+    // console.log(formattedOptns.id, '<< formattedOptnsi1')
+    
+    const highlight = (itemId) => {
+      //-------****next: Look at how to integrate the changed state function
+
+      console.log(clickedBtn, '<< clickedBtn before')
+      console.log(itemId,'<<< highlight props itemId') 
+      if (clickedBtn === itemId){
+  
+        setClickedBtn(itemId)
+        myRefs.current[clickedBtn].setNativeProps({style: {backgroundColor:'green'}});
+        console.log(clickedBtn, '<< clickedBtn afterClick with sameId')
+        console.log(currOptions[clickedBtn].option, '<< formattedOptns.title')
+        setCurrAnswer(currOptions[clickedBtn].option)
+        console.log(currAnswer, '<<< currAnswer after setCurrAnswer')
+      } 
+      else{
+        setClickedBtn(itemId)
+        console.log(clickedBtn, 'clickedButton before myRef')
+          myRefs.current[itemId].setNativeProps({style: {backgroundColor:'transparent'}});
+      //     myRefs.current[itemId].setNativeProps({style: {backgroundColor:'green'}});
+          console.log(clickedBtn, '<< clickedBtn afterClick with DIFFERENCT Id')
+
+      } 
+    }  
+      return (
+        <TouchableOpacity onPress={() => highlight(formattedOptns.id)}>
+            <View style={styles.listItem} ref={el => myRefs.current[formattedOptns.id] = el}>
+          <Text style={styles.listText}>{formattedOptns.option}</Text>
+  
+        </View>
+          </TouchableOpacity>
+  
+        
+      )
+  
+    }
+    
+  
+  const NextComp = (finalAns, currQuestion) => {
+    const finalAnswer = 'hi'
+    console.log(questAnsPair, '<< questAnsPair NextComp')
+    console.log(currAnswer, '<< NextComp currAnswer')
+
+
+    // useEffect(() => {
+      if (currAnswer == correctAns){
+        console.log('correctly answered')
+        correctAnsArr.push(currAnswer)
+        console.log(correctAnsArr.length, '<< correctAnsArr.length')
+
+        console.log(scoreCount, 'scoreCount before addition')
+        
+        console.log(scoreCount, '<<< scoreCount increased')
+
+      }
+      
+    
+    const increaseQCount = () => {
+      setQuestCount(questCount+1)
+    }
+
+    const resetQCount = () => {
+      setQuestCount(0)
+      
+    }
+
+    return(
+      <View>
+        <Button onPress={increaseQCount}>{'Next Question'}</Button>
+  
+        <Button onPress={resetQCount}>{'Restart quiz'}</Button>
+
+      </View>
+
+    )
+      
+  }
+  
+
+  const renderzItem = ({ item },) => (
+    <ItemComp option={item.option} id={item.id}/>
   )
   
-  
-
-
 
   const [selectedAns, setSelectedAns] = useState([])
     
@@ -137,21 +266,21 @@ export default function MultipleChoice() {
     );
   };
 
-  const ListHeader = ({item}) => {
-    return (
-      <View style={styles.listHeader}>
-        <Text style={styles.listHeaderText}>{item.title}</Text>
-      </View>
-    );
-  };
+
 
   
-  useEffect(() => {
-    if (Object.values(questAnsPair).indexOf(selectedAns) > -1){
-      console.log('correct ans')
-    }
 
-  },[selectedAns])
+  // const handleAnsChange = () => {
+  //   useEffect(() => {
+  //     if (selectedAns)
+  //   })
+  // }
+  // useEffect(() => {
+  //   if (Object.values(questAnsPair).indexOf(selectedAns) > -1){
+  //     console.log('correct ans')
+  //   }
+
+  // },[questCount])
 
   
 
@@ -164,6 +293,8 @@ export default function MultipleChoice() {
 
 
   }
+  console.log(selectedAns, '<<, selectedAns')
+  console.log(currQName, '<< currQName')
 
 
   return (
@@ -172,16 +303,15 @@ export default function MultipleChoice() {
       <Button>{'hi'}</Button>
 
 
-        
-      <Text style={styles.listHeaderText}>{'question 1'}</Text>
-
       
       <FlatList
       data={currOptions}
       renderItem={renderzItem}
       keyExtractor={item => item.option}
+      ListHeaderComponent={ListHeader(currQName)}
       />
 
+      <NextComp />
       </SafeAreaView>
 
 
