@@ -38,7 +38,7 @@ export default function LoginPage({ navigation }) {
         console.log("login user info",formData);
 
         dispatch(ADD_USER(formData));
-        navigation.navigate("Quiz");
+        navigation.navigate("Landing");
       }
     } catch (err) {
       console.log(err);

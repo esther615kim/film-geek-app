@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import LoginPage from "../pages/LoginPage";
@@ -6,12 +7,21 @@ import ProfilePage from "../pages/ProfilePage";
 import MultipleChoice from "./Quizzes/MultipleChoice";
 import MoviesPage from "../pages/MoviesPage";
 import MovieModal from "../pages/MovieModal";
+import { useSelector } from "react-redux";
 
 import { createStackNavigator } from "@react-navigation/stack";
 const RootStack = createStackNavigator();
-const loggedIn = false;
 
 export const StackNavigator = () => {
+
+const [loggedIn, setLoggedIn] = useState(false);
+const userinfo = useSelector((state) => state.userInfo); // REDUX
+
+useEffect(()=>{
+  setLoggedIn(userinfo.isLoggedin);
+  console.log("nav-login info",userinfo.isLoggedin);
+},[userinfo])
+
   return (
     <RootStack.Navigator>
       <RootStack.Group >
