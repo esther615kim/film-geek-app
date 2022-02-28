@@ -10,11 +10,13 @@ export default function ProfilePage({navigation}) {
   const userinfo = useSelector((state) => state.userInfo); // to display
 
   useEffect(() => {
+        // REDUX
+        console.log("redux",userinfo);
     // firebase
-    // return auth.onAuthStateChanged((user) => {
-    //   console.log("email", user.auth.currentUser.email);
-    // });
-    console.log("slice",userinfo)
+    return auth.onAuthStateChanged((user) => {
+      setUser(user.auth.currentUser);
+      console.log("email", user.auth.currentUser.email);
+    });
 
   }, [userinfo]);
 
@@ -36,8 +38,8 @@ export default function ProfilePage({navigation}) {
         <Card style={{ width: "80%", margin: 20 }}>
           <Card.Content>
             <Subheading>{user.displayName}</Subheading>
-            {/* <Paragraph>{user.currentUser}</Paragraph>
-            <Paragraph>{user.email}</Paragraph> */}
+            {/* <Paragraph>{user.currentUser}</Paragraph> */}
+            <Paragraph>{user.email}</Paragraph>
 
           </Card.Content>
         </Card>
