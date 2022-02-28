@@ -14,11 +14,11 @@ const RootStack = createStackNavigator();
 
 export const StackNavigator = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const userinfo = useSelector((state) => state.userInfo); // REDUX
+  const userinfo = useSelector((state) => state.userInfo);
 
   useEffect(() => {
     setLoggedIn(userinfo.isLoggedin);
-    console.log("nav-login info", userinfo.isLoggedin);
+    console.log(userinfo.isLoggedin);
   }, [userinfo]);
 
   return (
