@@ -3,10 +3,19 @@ import { Text, View, ScrollView } from "react-native";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect } from "react";
-import { Card, Title, Paragraph } from "react-native-paper";
+import { Card, Title, Paragraph, Searchbar } from "react-native-paper";
 
 const MoviesPage = ({ navigation }) => {
+  const [fullMoviesList, setFullMoviesList] = useState([]);
   const [moviesData, setMoviesData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const filteredMovies = fullMoviesList.filter((movie) =>
+      movie.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    setMoviesData(filteredMovies);
+  }, [searchTerm]);
 
   function handlePress(movieID) {
     console.log(movieID);
@@ -21,6 +30,7 @@ const MoviesPage = ({ navigation }) => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
+        setFullMoviesList(docSnap.data().movies);
         setMoviesData(docSnap.data().movies);
       }
     }
@@ -29,6 +39,7 @@ const MoviesPage = ({ navigation }) => {
 
   return (
     <ScrollView>
+      <Searchbar placeholder="Search" onChangeText={(e) => setSearchTerm(e)} value={searchTerm} />
       {moviesData.length !== 0 ? (
         moviesData.map((movie) => (
           <View key={movie.id}>
