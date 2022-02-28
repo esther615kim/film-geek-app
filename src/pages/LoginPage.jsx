@@ -3,20 +3,26 @@ import { Text, View, StyleSheet, Platform } from "react-native";
 import { TextInput, Headline, Button } from "react-native-paper";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import GAuth from "../components/Auth/GAuth";
+import { useDispatch } from "react-redux";
+import { ADD_USER } from '../redux/features/userSlice';
 
 export default function LoginPage({ navigation }) {
-  const handleSignUpPressed = () => {
-    navigation.navigate("Sign Up");
-  };
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const formData = { email, password };
+  const formData = { name,email, password };
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+
+  const handleClickSignUp = ()=>{
+    navigation.navigate("Sign Up");
+  }
+
+  const handleClickSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log("exisiting info", formData);
 
     try {
       const auth = getAuth();
@@ -25,8 +31,14 @@ export default function LoginPage({ navigation }) {
 
       const user = userCredential.user;
       if (userCredential.user) {
-        console.log("logged in!");
-        // navigate to Main Page
+        // TODO: direct it to Homepage
+        
+        console.log("DisplayName",userCredential.user.displayName);
+        setName(userCredential.user.displayName); // name
+        console.log("login user info",formData);
+
+        dispatch(ADD_USER(formData));
+        navigation.navigate("Landing");
       }
     } catch (err) {
       console.log(err);
@@ -58,13 +70,13 @@ export default function LoginPage({ navigation }) {
               setPassword(password);
             }}
           ></TextInput>
-          <Button icon="account" mode="contained" onPress={handleSubmit}>
+          <Button icon="account" mode="contained" onPress={handleClickSubmit}>
             Log In
           </Button>
         </View>
         <Text
           style={{ padding: 20, textAlign: "center", color: "#fff" }}
-          onPress={() => handleSignUpPressed()}
+          onPress={handleClickSignUp}
         >
           Sign Up?
         </Text>
