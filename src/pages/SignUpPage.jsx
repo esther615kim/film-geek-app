@@ -28,19 +28,21 @@ export default function SignUpPage({ navigation }) {
       const user = userCredential.user;
 
       updateProfile(auth.currentUser, {
-        username: name,
+        displayName: name,
       });
+
+      console.log("updated current user", auth.currentUser)
 
       const formDataCopy = { ...formData };
       delete formDataCopy.password;
       formDataCopy.timestamp = serverTimestamp();
 
-      console.log(formDataCopy);
-
       await setDoc(doc(db, "users", user.uid), formDataCopy);
 
-      console.log("user registered");
-      dispatch(ADD_USER(formData));
+      console.log("user registered"); // firebase
+      dispatch(ADD_USER(formData)); // REDUX
+      navigation.navigate("Landing");
+
     } catch (err) {
       console.log(err);
     }

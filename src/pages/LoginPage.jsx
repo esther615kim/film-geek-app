@@ -7,11 +7,11 @@ import { useDispatch } from "react-redux";
 import { ADD_USER } from '../redux/features/userSlice';
 
 export default function LoginPage({ navigation }) {
-
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const formData = { email, password };
+  const formData = { name,email, password };
   const dispatch = useDispatch();
 
 
@@ -21,7 +21,6 @@ export default function LoginPage({ navigation }) {
 
   const handleClickSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
     try {
       const auth = getAuth();
@@ -31,7 +30,10 @@ export default function LoginPage({ navigation }) {
       const user = userCredential.user;
       if (userCredential.user) {
         // TODO: direct it to Homepage
-        navigation.navigate("Landing");
+
+        setName(userCredential.user.displayName); // name
+        console.log("login user info",formData);
+        navigation.navigate("Quiz");
         dispatch(ADD_USER(formData));
       }
     } catch (err) {

@@ -8,7 +8,8 @@ import {
   import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 const initialState = {
-    userInfo:[{username:null,email:null}],
+    username:null,
+    email:null,
     isLoggedin:false
 }
 
@@ -20,15 +21,24 @@ const userSlice = createSlice({
         // login
         ADD_USER(state,action){
             const newUser = {...action.payload};
-            state.userInfo[0].username = newUser.name;
-            state.userInfo[0].email = newUser.email;
-            console.log("user logged in",state.userInfo);
+            console.log("slice new user",newUser);
+
+            if(state.email === newUser.email){
+                console.log("loggedin user",state.username);
+                return;
+            }
+
+            state.username = newUser.name;
+            state.email = newUser.email;
+            state.isLoggedin = true;
+            console.log("slice user added",state.email,state.username,state.isLoggedin);
         },
         // logout
         LOGOUT(state){
-            state.userInfo = null;
+            state.name = null;
+            state.email = null,
             state.isLoggedin = false;
-            console.log("user logged out",state);
+            console.log("user logged out",state.isLoggedin);
         }
         
     }

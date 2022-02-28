@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { Text, View } from "react-native";
-import { Avatar, Card, Paragraph, Subheading, Button } from "react-native-paper";
+import { Avatar, Card, Paragraph, Subheading, Button,Divider } from "react-native-paper";
+import { useSelector } from "react-redux";
 
 export default function ProfilePage({navigation}) {
   const [user, setUser] = useState();
   const auth = getAuth();
+  const userinfo = useSelector((state) => state.userInfo); // to display
 
   useEffect(() => {
-    return auth.onAuthStateChanged((user) => {
-      console.log("username", user.auth.currentUser.email);
-      setUser(user.auth.currentUser);
-    });
-  }, [auth]);
+    // firebase
+    // return auth.onAuthStateChanged((user) => {
+    //   console.log("email", user.auth.currentUser.email);
+    // });
+    console.log("slice",userinfo)
+
+  }, [userinfo]);
 
   const handleClickLogOut = () => {
     console.log("logout");
+    auth.signOut();
+
     navigation.navigate("Landing");
   };
+
 
   return user ? (
     <>
@@ -29,15 +36,17 @@ export default function ProfilePage({navigation}) {
         <Card style={{ width: "80%", margin: 20 }}>
           <Card.Content>
             <Subheading>{user.displayName}</Subheading>
+            {/* <Paragraph>{user.currentUser}</Paragraph>
+            <Paragraph>{user.email}</Paragraph> */}
 
-            <Paragraph>{user.email}</Paragraph>
           </Card.Content>
         </Card>
+                    <Divider/>
       </View>
     </>
   ) : (
     <>
-      <Text style={{ color: "#fff", marginTop: 50 }}>Login required</Text>
+      <Text style={{margin: 50 }}>Login required</Text>
     </>
   );
 }
