@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import LoginPage from "../pages/LoginPage";
@@ -13,19 +13,22 @@ import { createStackNavigator } from "@react-navigation/stack";
 const RootStack = createStackNavigator();
 
 export const StackNavigator = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const userinfo = useSelector((state) => state.userInfo);
 
-const [loggedIn, setLoggedIn] = useState(false);
-const userinfo = useSelector((state) => state.userInfo); // REDUX
-
-useEffect(()=>{
-  setLoggedIn(userinfo.isLoggedin);
-  console.log("nav-login info",userinfo.isLoggedin);
-},[userinfo])
+  useEffect(() => {
+    setLoggedIn(userinfo.isLoggedin);
+    console.log(userinfo.isLoggedin);
+  }, [userinfo]);
 
   return (
     <RootStack.Navigator>
-      <RootStack.Group >
-        <RootStack.Screen options={{ headerShown: false }} name="Landing" component={loggedIn ? MoviesPage : LoginPage} />
+      <RootStack.Group>
+        <RootStack.Screen
+          options={{ headerShown: false }}
+          name="Landing"
+          component={loggedIn ? MoviesPage : LoginPage}
+        />
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal" }}>
         <RootStack.Screen name="View Movie" component={MovieModal} />
