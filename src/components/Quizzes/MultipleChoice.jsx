@@ -13,10 +13,30 @@ import {
 import { useEffect, useState } from "react";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import { Button } from "react-native-paper";
 
 const generateRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+
+const ItemComp = (formattedOptns) => {
+  console.log(formattedOptns), '<< ItemComp-formattedOptns'
+  const destructured = formattedOptns
+
+    return (
+      <View style={styles.listItem}>
+        <TouchableOpacity>
+        <Text style={styles.listText}>{formattedOptns.title}</Text>
+
+        </TouchableOpacity>
+      </View>
+
+      
+    )
+
+}
+
 
 export default function MultipleChoice() {
   const [quizData, setQuizData] = useState([]);
@@ -24,8 +44,14 @@ export default function MultipleChoice() {
   const [questionsToCorrectAnswer, setQuestionsToCorrectAnswer] = useState({});
   const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
   const [LISTDATA, setLISTDATA] = useState([])
+
+  const [currQuestion, setCurrQuestion] = useState([])
+  const [currOptions, setcurrOptions] = useState([])
+
   const [questAnsPair, setQuestAnsPair] = useState({})
+  const [currQName, setCurrQName] = useState([])
   const formatQns = []
+  const formatOptns = []
   
   useEffect(() => {
     async function readQuizData() {
@@ -42,9 +68,12 @@ export default function MultipleChoice() {
         questionData.forEach((questionData) => {
           const randomIndex = generateRandomNumber(0, 2);
           questionData.incorrect_answers.splice(randomIndex, 0, questionData.correct_answer);
-          newObject = { ...newObject, [questionData.question]: questionData.correct_answer };
+          newObject = [{ ...newObject, [questionData.question]: questionData.correct_answer }];
         });
-        setQuestAnsPair(newObject);
+
+        //arr of objects for each question with key:value  'question': 'answer'
+        setQuestAnsPair(newObject); 
+        // console.log(newObject, '<< newObject arr')
         questionData.forEach((question) => {
           formatQns.push({
             title : question.question,
@@ -53,23 +82,49 @@ export default function MultipleChoice() {
           })
           
         })
-        // console.log(formatQns, '<<< formatQns')
+        formatOptns.push(questionData[0].incorrect_answers)
+        formatOptns.map( (element) => {return {'option': element} })
+        
+
+        const formattedOptns = questionData[0].incorrect_answers.map((element) => {
+          return {'option': element}
+          
+        }) 
+
+        
+        setcurrOptions(formattedOptns)
+  
+
         setLISTDATA(formatQns)
-        console.log(LISTDATA, '<< nested LISTDATA')
-        setQuizData(questionData);
-        // console.log(questionData, '<<< questionData')
+        console.log(LISTDATA, '<< listDatahi')
+        const formatQnsArr = []
+        formatQnsArr.push(formatQns[0])
+        setCurrQuestion(formatQnsArr)
+
+
+        const questionTitle = [{title: 'anything'}]
+        questionTitle.title = formatQns[0].title
+        setCurrQName(questionTitle)
+
+
       }
   
     }
     readQuizData();
+    // extract options data into array
+
+
+
+
   }, []);
-  // console.log(quizData, '<<< quizData')
-  // console.log(questAnsPair, '<< questAnsPair')
-  // console.log(formatQns, '<<< formatQns')
-  console.log(LISTDATA, '<< LISTDATA OUTSIDE')
-  // console.log(LISTDATA[0].data[0], '<< LISTDATA[0].data[0]')
-  // const currentQuest = LISTDATA[0]["data"]
-  // console.log(currentQuest, '<< LISTDATA[0] dummy2')
+  
+  const renderzItem = ({ item }) => (
+    <ItemComp title={item.option}/>
+  )
+  
+  
+
+
 
   const [selectedAns, setSelectedAns] = useState([])
     
@@ -90,11 +145,7 @@ export default function MultipleChoice() {
     );
   };
 
-  // const handleAnsChange = () => {
-  //   useEffect(() => {
-  //     if (selectedAns)
-  //   })
-  // }
+  
   useEffect(() => {
     if (Object.values(questAnsPair).indexOf(selectedAns) > -1){
       console.log('correct ans')
@@ -102,6 +153,7 @@ export default function MultipleChoice() {
 
   },[selectedAns])
 
+  
 
   const handlepress = (item) => {
     
@@ -112,45 +164,25 @@ export default function MultipleChoice() {
 
 
   }
-  console.log(selectedAns, '<<, selectedAns')
 
 
   return (
-
-      // <View>
-
-      //   {
-      //     currentQuest.forEach((elementListData) => (
-      //       <TouchableOpacity
-      //       key={elementListData}
-      //       style={styles.listItem}
-      //       >
-      //         <Text style={styles.listItem}>{elementListData}</Text>
-      //       </TouchableOpacity>
-      //     ))
-      //   }
-
-      // </View>
+    
+    <SafeAreaView>
+      <Button>{'hi'}</Button>
 
 
-    <SafeAreaView style={styles.parentView}>
-      <SectionList
-        style={styles.list}
-        sections={LISTDATA}
-        keyExtractor={(item, index) => item + index}
-        // renderItem={({item}) => <ListItem item={item} />}
-        renderItem={({item}) => 
         
-        <TouchableOpacity onPress={() => handlepress(item)}>
-          
-                  <ListItem style={styles.item} item={item}></ListItem>
+      <Text style={styles.listHeaderText}>{'question 1'}</Text>
 
-
-                </TouchableOpacity>
-        }
-        renderSectionHeader={({section}) =>  <ListHeader item={section}/>}
+      
+      <FlatList
+      data={currOptions}
+      renderItem={renderzItem}
+      keyExtractor={item => item.option}
       />
-    </SafeAreaView>
+
+      </SafeAreaView>
 
 
   );
@@ -170,7 +202,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   listHeaderText: {
-    color: 'white',
+    color: 'black',
   },
   listItem: {
     flex: 1,
