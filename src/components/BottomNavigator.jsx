@@ -9,7 +9,7 @@ import MovieModal from "../pages/MovieModal";
 
 import { createStackNavigator } from "@react-navigation/stack";
 const RootStack = createStackNavigator();
-const loggedIn = false;
+const loggedIn = true;
 
 export const StackNavigator = () => {
   return (
