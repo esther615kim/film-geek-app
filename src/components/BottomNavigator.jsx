@@ -19,7 +19,6 @@ const userinfo = useSelector((state) => state.userInfo); // REDUX
 
 useEffect(()=>{
   setLoggedIn(userinfo.isLoggedin);
-  console.log("nav-login info",userinfo.isLoggedin);
 },[userinfo])
 
   return (

@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect } from "react";
 import { Card, Title, Paragraph } from "react-native-paper";
+import Banner from '../components/Home/Banner';
 
 const MoviesPage = ({ navigation }) => {
   const [moviesData, setMoviesData] = useState([]);
@@ -28,6 +29,8 @@ const MoviesPage = ({ navigation }) => {
   }, []);
 
   return (
+    <>
+    <Banner/>
     <ScrollView>
       {moviesData.length !== 0 ? (
         moviesData.map((movie) => (
@@ -49,6 +52,7 @@ const MoviesPage = ({ navigation }) => {
         <Text>Loading movies...</Text>
       )}
     </ScrollView>
+    </>
   );
 };
 

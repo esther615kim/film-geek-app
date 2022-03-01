@@ -32,6 +32,9 @@ const userSlice = createSlice({
             state.email = newUser.email;
             state.isLoggedin = true;
             console.log("slice user added",state.email,state.username,state.isLoggedin);
+            // local storage
+            localStorage.setItem("user",JSON.stringify([state.username,state.email,state.isLoggedin]));
+
         },
         // logout
         LOGOUT(state){

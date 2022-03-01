@@ -8,6 +8,7 @@ export default function ProfilePage({ navigation }) {
   const [user, setUser] = useState();
   const auth = getAuth();
   const userinfo = useSelector((state) => state.userInfo); // REDUX
+  
   useEffect(() => {
     // REDUX
     console.log("redux", userinfo);
