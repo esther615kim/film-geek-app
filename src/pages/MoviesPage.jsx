@@ -32,10 +32,6 @@ const MoviesPage = ({ navigation }) => {
     setMoviesData(filteredMovies);
   }, [searchTerm]);
 
-  function handlePress(movie) {
-    navigation.navigate("View Movie", { movieID: movieID });
-  }
-
   useEffect(() => {
     async function getMovieData() {
       const docRef = doc(db, "movieData", "qWEaphXhRnZGlArWxqIo");
@@ -61,7 +57,7 @@ const MoviesPage = ({ navigation }) => {
         moviesData.map((movie) => (
           <View key={movie.id}>
             <Card
-              onPress={(e) => {
+              onPress={() => {
                 navigation.navigate("View Movie", { movie });
               }}
             >
