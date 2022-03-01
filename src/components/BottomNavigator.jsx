@@ -7,6 +7,8 @@ import ProfilePage from "../pages/ProfilePage";
 import MultipleChoice from "./Quizzes/MultipleChoice";
 import MoviesPage from "../pages/MoviesPage";
 import MovieModal from "../pages/MovieModal";
+import ChatPage from "../pages/ChatPage";
+
 import { useSelector } from "react-redux";
 
 import { createStackNavigator } from "@react-navigation/stack";
@@ -64,9 +66,9 @@ export default function MyTabs() {
       })}
     >
       <Tab.Screen name="Home" component={StackNavigator}></Tab.Screen>
-
       <Tab.Screen name="Profile" component={ProfilePage} />
       <Tab.Screen name="Quiz" component={MultipleChoice} />
+      <Tab.Screen name="Chat" component={ChatPage} />
     </Tab.Navigator>
   );
 }

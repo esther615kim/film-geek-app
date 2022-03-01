@@ -27,6 +27,18 @@ export async function postUserComment(newComment) {
   }
 }
 
+/** Chat */
+export async function postUserMessage(newMessage) {
+  try {
+    console.log('new msg', newMessage)
+    const addMessage = { ...newMessage, created_at: Timestamp.now() }; // TODO Should be done on server
+    const docRef = await addDoc(collection(db, "Messages"), addMessage);
+    return docRef.id;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
 export async function getComments() {
   try {
     const comments = [];
