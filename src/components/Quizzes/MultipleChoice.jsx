@@ -88,6 +88,8 @@ export default function MultipleChoice() {
 
 
   }
+  //button-click
+  // const myRefs = React.useRef([]); // <<--- myRefs not found when rendered outside
   
   // -----------------------
   
@@ -120,7 +122,9 @@ export default function MultipleChoice() {
           })
           
         })
-        console.log(questionData[questCount].incorrect_answers, '<< questCount incorrectAnswers') 
+        console.log(questionData[questCount].incorrect_answers, '<< questCount incorrectAnswers') // change this to "current Question state" dynamic question counter later
+        // const [questionCounter, setQuestionCounter] = useState(0)..then rewrite below as..
+        //formatOptns.push(questionData[questionCounter].incorrect_answers)
         formatOptns.push(questionData[questCount].incorrect_answers)
         formatOptns.map( (element, index) => {return { 'option': element} })
         
@@ -134,18 +138,18 @@ export default function MultipleChoice() {
         setCurrQuestion(formatQnsArr)
 
         // console.log(formatOptnsObj, '<< formatOptnsObj')
-        // console.log(formatOptns, '<< formatOptns postMarrrch1')
+        console.log(formatOptns, '<< formatOptns postMarrrch1')
         // console.log(formattedOptns, '<< formattedOptns X1')
         setcurrOptions(formattedOptns)
-        // console.log(currOptions, '<< currOptions pls')
+        console.log(currOptions, '<< currOptions pls')
   
         formatQnsArr.push(formatQns[questCount])
 
         const questionTitle = [{title: formatQns[questCount].title}]
         questionTitle.title = formatQns[questCount].title
         setCurrQName(questionTitle.title)
-        // console.log(currQName, '<<< currQName')
-        // console.log(questionTitle, '<<questionTitle')
+        console.log(currQName, '<<< currQName')
+        console.log(questionTitle, '<<questionTitle')
         
         console.log(currQuestion, '<<< currQuestion 142')
         console.log(currQuestion[0].correct_option, '<< currQuestion[0].correct_option 142 ')
@@ -155,10 +159,10 @@ export default function MultipleChoice() {
         // }, [questCount])
         
         // setCorrectAns(currQuestion[questCount].correct_option)
-        // console.log(correctAns, '<< correctAns state123') 
+        console.log(correctAns, '<< correctAns state123') 
 
-        // // console.log(formatOptns, '<<formatOptns')
-        // console.log(setcurrOptions, '<<< setcurrOptions')
+        // console.log(formatOptns, '<<formatOptns')
+        console.log(setcurrOptions, '<<< setcurrOptions')
       }
     }
     readQuizData();
@@ -174,8 +178,8 @@ export default function MultipleChoice() {
   
   const myRefs = React.useRef([]);
   const ItemComp = (formattedOptns) => {
-    // console.log(formattedOptns, '<< ItemComp-formattedOptns New X1')
-    // console.log(currQuestion[0], '<< currQuestion[0]')
+    console.log(formattedOptns, '<< ItemComp-formattedOptns New X1')
+    console.log(currQuestion[0], '<< currQuestion[0]')
     // setCorrectAns(currQuestion[questCount].correct_option)
   
     // const [clickedBtn, setClickedBtn] = useState([])
@@ -185,8 +189,8 @@ export default function MultipleChoice() {
 
       //-------****next: Look at how to integrate the changed state function
       // setClickedBtn(itemId)
-      // console.log(clickedBtn, '<< clickedBtn before')
-      // console.log(itemId,'<<< highlight props itemId') 
+      console.log(clickedBtn, '<< clickedBtn before')
+      console.log(itemId,'<<< highlight props itemId') 
       // console.log(myRefs.current[clickedBtn],'<<<myRefs.current[clickedBtn] 9990')
       if (!(clickedBtn === itemId)){
         
@@ -227,7 +231,54 @@ export default function MultipleChoice() {
   
     }
     
+  
+  const NextComp = (finalAns, currQuestion) => {
+    const finalAnswer = 'hi'
+    // console.log(questAnsPair, '<< questAnsPair NextComp')
+    // console.log(currAnswer, '<< NextComp currAnswer')
 
+
+    // useEffect(() => {
+      
+      
+      // console.log(correctAnsArr, '<<<correctAnsArr ')
+      // console.log(correctAns, '<<< correctAns')
+    const increaseQCount = () => {
+      if (currAnswer == correctAns){
+        // console.log('correctly answered12')
+        // console.log(currAnswer, '<< supposedly correct answer')
+        correctAnsArr.push(currAnswer)
+        // console.log(correctAnsArr.length, '<< correctAnsArr.length')
+      
+        // console.log(correctAnsArr, '<< cor1234')
+        // console.log(scoreCount, 'scoreCount after addition1')
+        
+        // console.log(scoreCount, '<<< scoreCount increased')
+
+      }
+      setQuestCount(questCount+1)
+    }
+
+    const resetQCount = () => {
+      setQuestCount(0)
+      // while(correctAnsArr > 0){
+      //   correctAnsArr.pop()
+      // }
+      // console.log(correctAnsArr, ''<)
+      
+    }
+
+    return(
+      <View>
+        <Button onPress={increaseQCount}>{'Next Question'}</Button>
+  
+        <Button onPress={resetQCount}>{'Restart quiz'}</Button>
+
+      </View>
+
+    )
+      
+  }
   
 
   const renderzItem = ({ item },) => (
@@ -245,19 +296,20 @@ export default function MultipleChoice() {
       </View>
     );
   };
+
   
 
   const handlepress = (item) => {
     
     setSelectedAns(item)
-    console.log(selectedAns, '<< selectedAns')
+    // console.log(selectedAns, '<< selectedAns')
   
     // return console.log(item, '<< itemLog')
 
 
   }
-  console.log(selectedAns, '<<, selectedAns')
-  console.log(currQName, '<< currQName')
+  // console.log(selectedAns, '<<, selectedAns')
+  // console.log(currQName, '<< currQName')
 
 
   return (
@@ -274,7 +326,7 @@ export default function MultipleChoice() {
       ListHeaderComponent={ListHeader(currQName)}
       />
 
-
+      <NextComp />
       </SafeAreaView>
 
 
