@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { Text, View } from "react-native";
+import { LOGOUT } from '../redux/features/userSlice';
 import { Avatar, Card, Paragraph, Subheading, Button, Divider } from "react-native-paper";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 
 export default function ProfilePage({ navigation }) {
   const [user, setUser] = useState();
   const auth = getAuth();
   const userinfo = useSelector((state) => state.userInfo); // REDUX
+  const dispatch = useDispatch(); // REDUX
   
   useEffect(() => {
     // REDUX
-    console.log("localData", userinfo.localData);
-    setUser(userinfo.localData);
+    // console.log("localData", userinfo.localData);
+    // setUser(userinfo.localData);
 
-    // firebase
-    // return auth.onAuthStateChanged((user) => {
-    //   setUser(user.auth.currentUser);
-    // });
-  }, [userinfo]);
+    //firebase
+    return auth.onAuthStateChanged((user) => {
+      console.log("fireAuth",user.auth.currentUser);
+      setUser(user.auth.currentUser);
+    });
+  }, [auth]);
 
   const handleClickLogOut = () => {
-    console.log("logout");
-    auth.signOut();
-
+    dispatch(LOGOUT());
     navigation.navigate("Landing");
   };
 
@@ -36,7 +37,7 @@ export default function ProfilePage({ navigation }) {
         </Button>
         <Card style={{ width: "80%", margin: 20 }}>
           <Card.Content>
-            <Subheading>{user.user}</Subheading>
+            <Subheading>{user.user? user.user:user.displayName}</Subheading>
             <Paragraph>{user.email}</Paragraph>
           </Card.Content>
         </Card>

@@ -1,5 +1,5 @@
 import React from "react";
-import { StylesSHeet, TouchableOpacity, Text, ScrollView } from "react-native";
+import { TouchableOpacity, Text, ScrollView } from "react-native";
 
 export default function Banner() {
   const handleClickCard = (e) => {
@@ -11,51 +11,55 @@ export default function Banner() {
       <ScrollView horizontal indivatorSTyle={"white"} style={{ padding: 10 }}>
         <TouchableOpacity
           style={{
-            width: 100,
-            height: 50,
+            width: 80,
+            height: 40,
             padding: 10,
             backgroundColor: "#fdc453",
+            textAlign:"center",
             borderRadius: 15,
             margin: 5,
           }}
         >
-          Drama
+          <Text>Easy</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width: 100,
-            height: 50,
+            width: 80,
+            height: 40,
             padding: 10,
             backgroundColor: "#fe8d6f",
+            textAlign:"center",
             borderRadius: 15,
             margin: 5,
           }}
         >
-          Action
+          <Text>Difficult</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width: 100,
-            height: 50,
+            width: 80,
+            height: 40,
             padding: 10,
+            textAlign:"center",
             backgroundColor: "#9adbc5",
             borderRadius: 15,
             margin: 5,
           }}
         >
-          History
+          <Text>History</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width: 100,
-            height: 50,
+            width: 80,
+            height: 40,
             padding: 10,
-            backgroundColor: "#fdc453",
+            backgroundColor: "#3275a8",
+            textAlign:"center",
             borderRadius: 15,
             margin: 5,
           }}
         >
-          Easy
+          <Text>Drama</Text>
         </TouchableOpacity>
       </ScrollView>
     </div>

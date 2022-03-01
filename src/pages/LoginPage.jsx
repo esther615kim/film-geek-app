@@ -4,21 +4,20 @@ import { TextInput, Headline, Button } from "react-native-paper";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import GAuth from "../components/Auth/GAuth";
 import { useDispatch } from "react-redux";
-import { ADD_USER } from '../redux/features/userSlice';
+import { ADD_USER } from "../redux/features/userSlice";
+import { ADD_USERNAME } from "../redux/features/userSlice";
 
 export default function LoginPage({ navigation }) {
 
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const formData = { name,email, password };
+  const formData = { email, password };
   const dispatch = useDispatch();
 
-
-  const handleClickSignUp = ()=>{
+  const handleClickSignUp = () => {
     navigation.navigate("Sign Up");
-  }
+  };
 
   const handleClickSubmit = async (e) => {
     e.preventDefault();
@@ -31,13 +30,12 @@ export default function LoginPage({ navigation }) {
 
       const user = userCredential.user;
       if (userCredential.user) {
-        // TODO: direct it to Homepage
-        
-        console.log("DisplayName",userCredential.user.displayName);
-        setName(userCredential.user.displayName); // name
-        console.log("login user info",formData);
-
+        // handling async
+        auth.onAuthStateChanged(() => {
+          dispatch(ADD_USERNAME(userCredential.user.displayName));
+        });
         dispatch(ADD_USER(formData));
+
         navigation.navigate("Landing");
       }
     } catch (err) {
