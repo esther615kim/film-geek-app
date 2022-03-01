@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     //width: 100,
     //backgroundColor: "magenta",
     backgroundColor: 'blue',
-    disabled: 'red',
+    // disabled: 'red',
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,

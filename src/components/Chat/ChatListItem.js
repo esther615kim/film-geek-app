@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     //borderBottomColor: 'black'
   },
   messageLeft: {
-    testAlign: 'left',
+    textAlign: 'left',
     backgroundColor: 'red', // TODO Use colour palette
     marginBottom: 4 // Space between lines
   },
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
       fontSize: 16,
   },
   button: {
-    backgroundColor: 'LightBlue'
+    backgroundColor: 'blue'
   }
 });
