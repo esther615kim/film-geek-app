@@ -10,22 +10,88 @@ import {
   SectionList,
   StyleSheet, 
 } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import { Button } from "react-native-paper";
 
 const generateRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
+
+  // highlight Function start -------------
+  
+  const highlight1 = (itemId) => {
+    const myRefs = React.useRef([]); 
+
+    let clickedBtn = 1
+    console.log(itemId,'<<< highlight props itemId') 
+
+      myRefs.current[itemId].setNativeProps({style: {backgroundColor:'green'}});
+
+    console.log(clickedBtn,'<<< itemId') 
+
+    const resetColors = () => {
+        myRefs.current.forEach(ref => 
+            ref.setNativeProps({style:{backgroundColor:'transparent'}})
+        );
+      }
+  }
+  
+// highlight Function end --------------
+
+const ListHeader = (item) => {
+  console.log(item, '<<< ListHeader item')
+  return (
+      <View style={styles.listHeader}>
+        <Text style={styles.listHeaderText}>{item}</Text>
+
+      </View>
+  );
+};
+
+const correctAnsArr = []
+
+
+
+
+
 export default function MultipleChoice() {
+  
   const [quizData, setQuizData] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [questionsToCorrectAnswer, setQuestionsToCorrectAnswer] = useState({});
   const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
   const [LISTDATA, setLISTDATA] = useState([])
+  
+  const [questCount, setQuestCount] = useState(0) // <-- increment 'onNext'
+  const [scoreCount, setScoreCount] = useState(0) // <--- inc/decrement 'onNext'
+  const [currQuestion, setCurrQuestion] = useState([])
+  const [currAnswer, setCurrAnswer] = useState("")
+  const [correctAns, setCorrectAns] = useState("")
+  const [correctAnsArr, setCorrectAnsArr ] = useState([])
+  
+  
+  const [clickedBtn, setClickedBtn] = useState(0) // top
+  const [state, dispatch ] = useReducer(reducer, 0)
+  
+  const [currOptions, setcurrOptions] = useState([])
   const [questAnsPair, setQuestAnsPair] = useState({})
-  const formatQns = []
+  const [currQName, setCurrQName] = useState("")
+  let formatQns = []
+  let formatOptns = []
+  const formatQnsArr = []
+  
+  function reducer(state, action){
+
+
+
+  }
+  //button-click
+  // const myRefs = React.useRef([]); // <<--- myRefs not found when rendered outside
+  
+  // -----------------------
   
   useEffect(() => {
     async function readQuizData() {
@@ -35,16 +101,19 @@ export default function MultipleChoice() {
 
       if (docSnap.exists()) {
         const questionData = docSnap.data().results;
-        console.log(questionData, '<< initial questionData')
+        // console.log(questionData, '<< initial questionData')
         console.log("quizData retrieved.");
         let newObject;
         // Add the correct answer to the incorrect_answers array at a random index between 0 and 2.
         questionData.forEach((questionData) => {
           const randomIndex = generateRandomNumber(0, 2);
           questionData.incorrect_answers.splice(randomIndex, 0, questionData.correct_answer);
-          newObject = { ...newObject, [questionData.question]: questionData.correct_answer };
+          newObject = [{ ...newObject, [questionData.question]: questionData.correct_answer }];
         });
-        setQuestAnsPair(newObject);
+        //arr of objects for each question with key:value  'question': 'answer'
+        setQuestAnsPair(newObject); // << may remove
+        
+        // console.log(newObject, '<< newObject arr')
         questionData.forEach((question) => {
           formatQns.push({
             title : question.question,
@@ -53,23 +122,169 @@ export default function MultipleChoice() {
           })
           
         })
-        // console.log(formatQns, '<<< formatQns')
-        setLISTDATA(formatQns)
-        console.log(LISTDATA, '<< nested LISTDATA')
-        setQuizData(questionData);
-        // console.log(questionData, '<<< questionData')
-      }
+        console.log(questionData[questCount].incorrect_answers, '<< questCount incorrectAnswers') // change this to "current Question state" dynamic question counter later
+        // const [questionCounter, setQuestionCounter] = useState(0)..then rewrite below as..
+        //formatOptns.push(questionData[questionCounter].incorrect_answers)
+        formatOptns.push(questionData[questCount].incorrect_answers)
+        formatOptns.map( (element, index) => {return { 'option': element} })
+        
+        //perform map on questionData - data:['option1,'option 2'] array so that we get [{option: "option1"}, {option: 'option2'}] 
+        const formattedOptns = questionData[questCount].incorrect_answers.map((element, index) => {
+          return {id: index,'option': element}
+          
+        }) 
+        
+        
+        setCurrQuestion(formatQnsArr)
+
+        // console.log(formatOptnsObj, '<< formatOptnsObj')
+        console.log(formatOptns, '<< formatOptns postMarrrch1')
+        // console.log(formattedOptns, '<< formattedOptns X1')
+        setcurrOptions(formattedOptns)
+        console.log(currOptions, '<< currOptions pls')
   
+        formatQnsArr.push(formatQns[questCount])
+
+        const questionTitle = [{title: formatQns[questCount].title}]
+        questionTitle.title = formatQns[questCount].title
+        setCurrQName(questionTitle.title)
+        console.log(currQName, '<<< currQName')
+        console.log(questionTitle, '<<questionTitle')
+        
+        console.log(currQuestion, '<<< currQuestion 142')
+        console.log(currQuestion[0].correct_option, '<< currQuestion[0].correct_option 142 ')
+        // console.log(currQuestion[questCount].correct_option, '<< currQuestion.correct_option 142 ')
+        // useEffect(() => {
+        //   setCorrectAns(currQuestion[questCount].correct_option)  
+        // }, [questCount])
+        
+        // setCorrectAns(currQuestion[questCount].correct_option)
+        console.log(correctAns, '<< correctAns state123') 
+
+        // console.log(formatOptns, '<<formatOptns')
+        console.log(setcurrOptions, '<<< setcurrOptions')
+      }
     }
     readQuizData();
-  }, []);
-  // console.log(quizData, '<<< quizData')
-  // console.log(questAnsPair, '<< questAnsPair')
-  // console.log(formatQns, '<<< formatQns')
-  console.log(LISTDATA, '<< LISTDATA OUTSIDE')
-  // console.log(LISTDATA[0].data[0], '<< LISTDATA[0].data[0]')
-  // const currentQuest = LISTDATA[0]["data"]
-  // console.log(currentQuest, '<< LISTDATA[0] dummy2')
+    // extract options data into array
+  }, [questCount]);
+  
+
+  const resetColors = () => {
+    myRefs.current.forEach(ref => 
+        ref.setNativeProps({style:{backgroundColor:'transparent'}})
+    );
+  }
+  
+  const myRefs = React.useRef([]);
+  const ItemComp = (formattedOptns) => {
+    console.log(formattedOptns, '<< ItemComp-formattedOptns New X1')
+    console.log(currQuestion[0], '<< currQuestion[0]')
+    // setCorrectAns(currQuestion[questCount].correct_option)
+  
+    // const [clickedBtn, setClickedBtn] = useState([])
+    const destructured = formattedOptns
+
+    const highlight = (itemId) => {
+
+      //-------****next: Look at how to integrate the changed state function
+      // setClickedBtn(itemId)
+      console.log(clickedBtn, '<< clickedBtn before')
+      console.log(itemId,'<<< highlight props itemId') 
+      // console.log(myRefs.current[clickedBtn],'<<<myRefs.current[clickedBtn] 9990')
+      if (!(clickedBtn === itemId)){
+        
+        setClickedBtn(itemId)
+        myRefs.current[itemId].setNativeProps({style: {backgroundColor:'red'}});
+        console.log(clickedBtn, '<< clickedBtn afterClick with sameId')
+        console.log(currOptions[clickedBtn].option, '<< formattedOptns.title')
+        // setCurrAnswer(currOptions[clickedBtn].option)
+        console.log(currAnswer, '<<< currAnswer after setCurrAnswer')
+
+      } 
+      else{
+        // console.log(myRefs.current[clickedBtn], '<<< reactREFSSTyle backgroundColor') 
+        // setClickedBtn(itemId)
+        console.log(clickedBtn, 'clickedButton before myRef')
+        myRefs.current[itemId].setNativeProps({style: {backgroundColor:'blue'}});
+        // setClickedBtn(itemId)
+      //     myRefs.current[itemId].setNativeProps({style: {backgroundColor:'green'}});
+          console.log(clickedBtn, '<< clickedBtn afterClick with DIFFERENCT Id')
+
+
+      } 
+      
+    }  
+    console.log(currAnswer, '<<< currAnswer before re-render')
+
+      return (
+        <TouchableOpacity onPress={() => {highlight(formattedOptns.id)}}>
+         {/* <TouchableOpacity onPress={() => resetColors()}> */}
+            <View style={styles.listItem} ref={el => myRefs.current[formattedOptns.id] = el}>
+          <Text style={styles.listText}>{formattedOptns.option}</Text>
+  
+        </View>
+          </TouchableOpacity>
+  
+        
+      )
+  
+    }
+    
+  
+  const NextComp = (finalAns, currQuestion) => {
+    const finalAnswer = 'hi'
+    // console.log(questAnsPair, '<< questAnsPair NextComp')
+    // console.log(currAnswer, '<< NextComp currAnswer')
+
+
+    // useEffect(() => {
+      
+      
+      // console.log(correctAnsArr, '<<<correctAnsArr ')
+      // console.log(correctAns, '<<< correctAns')
+    const increaseQCount = () => {
+      if (currAnswer == correctAns){
+        // console.log('correctly answered12')
+        // console.log(currAnswer, '<< supposedly correct answer')
+        correctAnsArr.push(currAnswer)
+        // console.log(correctAnsArr.length, '<< correctAnsArr.length')
+      
+        // console.log(correctAnsArr, '<< cor1234')
+        // console.log(scoreCount, 'scoreCount after addition1')
+        
+        // console.log(scoreCount, '<<< scoreCount increased')
+
+      }
+      setQuestCount(questCount+1)
+    }
+
+    const resetQCount = () => {
+      setQuestCount(0)
+      // while(correctAnsArr > 0){
+      //   correctAnsArr.pop()
+      // }
+      // console.log(correctAnsArr, ''<)
+      
+    }
+
+    return(
+      <View>
+        <Button onPress={increaseQCount}>{'Next Question'}</Button>
+  
+        <Button onPress={resetQCount}>{'Restart quiz'}</Button>
+
+      </View>
+
+    )
+      
+  }
+  
+
+  const renderzItem = ({ item },) => (
+    <ItemComp option={item.option} id={item.id}/>
+  )
+  
 
   const [selectedAns, setSelectedAns] = useState([])
     
@@ -82,75 +297,37 @@ export default function MultipleChoice() {
     );
   };
 
-  const ListHeader = ({item}) => {
-    return (
-      <View style={styles.listHeader}>
-        <Text style={styles.listHeaderText}>{item.title}</Text>
-      </View>
-    );
-  };
-
-  // const handleAnsChange = () => {
-  //   useEffect(() => {
-  //     if (selectedAns)
-  //   })
-  // }
-  useEffect(() => {
-    if (Object.values(questAnsPair).indexOf(selectedAns) > -1){
-      console.log('correct ans')
-    }
-
-  },[selectedAns])
-
+  
 
   const handlepress = (item) => {
     
     setSelectedAns(item)
-    console.log(selectedAns, '<< selectedAns')
+    // console.log(selectedAns, '<< selectedAns')
   
     // return console.log(item, '<< itemLog')
 
 
   }
-  console.log(selectedAns, '<<, selectedAns')
+  // console.log(selectedAns, '<<, selectedAns')
+  // console.log(currQName, '<< currQName')
 
 
   return (
-
-      // <View>
-
-      //   {
-      //     currentQuest.forEach((elementListData) => (
-      //       <TouchableOpacity
-      //       key={elementListData}
-      //       style={styles.listItem}
-      //       >
-      //         <Text style={styles.listItem}>{elementListData}</Text>
-      //       </TouchableOpacity>
-      //     ))
-      //   }
-
-      // </View>
+    
+    <SafeAreaView>
+      <Button>{'hi'}</Button>
 
 
-    <SafeAreaView style={styles.parentView}>
-      <SectionList
-        style={styles.list}
-        sections={LISTDATA}
-        keyExtractor={(item, index) => item + index}
-        // renderItem={({item}) => <ListItem item={item} />}
-        renderItem={({item}) => 
-        
-        <TouchableOpacity onPress={() => handlepress(item)}>
-          
-                  <ListItem style={styles.item} item={item}></ListItem>
-
-
-                </TouchableOpacity>
-        }
-        renderSectionHeader={({section}) =>  <ListHeader item={section}/>}
+      
+      <FlatList
+      data={currOptions}
+      renderItem={renderzItem}
+      keyExtractor={item => item.option}
+      ListHeaderComponent={ListHeader(currQName)}
       />
-    </SafeAreaView>
+
+      <NextComp />
+      </SafeAreaView>
 
 
   );
@@ -170,7 +347,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   listHeaderText: {
-    color: 'white',
+    color: 'black',
   },
   listItem: {
     flex: 1,
