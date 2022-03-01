@@ -74,7 +74,8 @@ export default function MultipleChoice() {
   
   
   const [clickedBtn, setClickedBtn] = useState(0) // top
-  const [state, dispatch ] = useReducer(reducer, 0)
+  const initialState = {clicked: 0}
+  const [state, dispatch ] = useReducer(reducer, initialState)
   
   const [currOptions, setcurrOptions] = useState([])
   const [questAnsPair, setQuestAnsPair] = useState({})
@@ -84,6 +85,7 @@ export default function MultipleChoice() {
   const formatQnsArr = []
   
   function reducer(state, action){
+    
 
 
 
@@ -188,7 +190,7 @@ export default function MultipleChoice() {
     const highlight = (itemId) => {
 
       //-------****next: Look at how to integrate the changed state function
-      // setClickedBtn(itemId)
+      setClickedBtn(itemId)
       console.log(clickedBtn, '<< clickedBtn before')
       console.log(itemId,'<<< highlight props itemId') 
       // console.log(myRefs.current[clickedBtn],'<<<myRefs.current[clickedBtn] 9990')
@@ -204,7 +206,7 @@ export default function MultipleChoice() {
       } 
       else{
         // console.log(myRefs.current[clickedBtn], '<<< reactREFSSTyle backgroundColor') 
-        // setClickedBtn(itemId)
+        setClickedBtn(itemId)
         console.log(clickedBtn, 'clickedButton before myRef')
         myRefs.current[itemId].setNativeProps({style: {backgroundColor:'blue'}});
         // setClickedBtn(itemId)
