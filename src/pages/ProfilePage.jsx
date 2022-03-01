@@ -15,8 +15,6 @@ export default function ProfilePage({ navigation }) {
     // REDUX
     // console.log("localData", userinfo.localData);
     // setUser(userinfo.localData);
-    console.log("id",userinfo.id);
-
     //firebase
     return auth.onAuthStateChanged((user) => {
       console.log("fireAuth",user.auth.currentUser);

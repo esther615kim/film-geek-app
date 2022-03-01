@@ -12,7 +12,7 @@ export default function SignUpPage({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [id,setId] = useState(null);
+  const [user_id,setId] = useState(null);
 
   const formData = { name, email, password };
 
@@ -40,7 +40,7 @@ export default function SignUpPage({ navigation }) {
       //hadnling async && add user_id
       auth.onAuthStateChanged(() => {
         setId(user.uid);
-        id && dispatch(ADD_ID(id));
+        user_id && dispatch(ADD_ID(user_id));
       });
 
       console.log("user registered"); // firebase
