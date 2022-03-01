@@ -3,6 +3,8 @@ import { Text, View, ScrollView, Picker } from "react-native";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect } from "react";
+
+import Banner from '../components/Home/Banner';
 import { Card, Title, Paragraph, Searchbar } from "react-native-paper";
 import Pagination from "../components/Pagination";
 
@@ -71,6 +73,8 @@ const MoviesPage = ({ navigation }) => {
   };
 
   return (
+    <>
+    <Banner/>
     <ScrollView>
       {moviesData ? (
         <View>
@@ -115,6 +119,7 @@ const MoviesPage = ({ navigation }) => {
         <Text>Loading movies...</Text>
       )}
     </ScrollView>
+    </>
   );
 };
 

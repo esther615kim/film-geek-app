@@ -6,12 +6,13 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./../firebase/config";
 import { useDispatch } from "react-redux";
-import { ADD_USER } from "../redux/features/userSlice";
+import { ADD_ID, ADD_USER } from "../redux/features/userSlice";
 
 export default function SignUpPage({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user_id,setId] = useState(null);
 
   const formData = { name, email, password };
 
@@ -31,18 +32,20 @@ export default function SignUpPage({ navigation }) {
         displayName: name,
       });
 
-      console.log("updated current user", auth.currentUser)
-
       const formDataCopy = { ...formData };
       delete formDataCopy.password;
       formDataCopy.timestamp = serverTimestamp();
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
+      //hadnling async && add user_id
+      auth.onAuthStateChanged(() => {
+        setId(user.uid);
+        user_id && dispatch(ADD_ID(user_id));
+      });
 
       console.log("user registered"); // firebase
       dispatch(ADD_USER(formData)); // REDUX
       navigation.navigate("Landing");
-
     } catch (err) {
       console.log(err);
     }

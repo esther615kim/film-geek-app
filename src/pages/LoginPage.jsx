@@ -4,21 +4,21 @@ import { TextInput, Headline, Button } from "react-native-paper";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import GAuth from "../components/Auth/GAuth";
 import { useDispatch } from "react-redux";
-import { ADD_USER } from '../redux/features/userSlice';
+import { ADD_USER,ADD_ID } from "../redux/features/userSlice";
+import { ADD_USERNAME } from "../redux/features/userSlice";
 
 export default function LoginPage({ navigation }) {
-
-  const [name, setName] = useState("");
+  const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user_id,setId] = useState(null);
 
-  const formData = { name,email, password };
+  const formData = { email, password };
   const dispatch = useDispatch();
 
-
-  const handleClickSignUp = ()=>{
+  const handleClickSignUp = () => {
     navigation.navigate("Sign Up");
-  }
+  };
 
   const handleClickSubmit = async (e) => {
     e.preventDefault();
@@ -26,16 +26,20 @@ export default function LoginPage({ navigation }) {
 
     try {
       const auth = getAuth();
-
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
       const user = userCredential.user;
+
       if (userCredential.user) {
-        // TODO: direct it to Homepage
-        
-        console.log("DisplayName",userCredential.user.displayName);
-        setName(userCredential.user.displayName); // name
-        console.log("login user info",formData);
+        // handling async
+        auth.onAuthStateChanged(() => {
+          setUser(userCredential.user.displayName);
+          console.log("updated username", user);
+          user && dispatch(ADD_USERNAME(user));
+          // ID
+          setId(user.uid);
+          user_id&& dispatch(ADD_ID(user_id));
+        });
+
 
         dispatch(ADD_USER(formData));
         navigation.navigate("Landing");
