@@ -8,11 +8,13 @@ import {
   import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 const initialState = {
+    localData:localStorage.getItem("user")? 
+    JSON.parse(localStorage.getItem("user"))
+    :null,
     username:null,
     email:null,
     isLoggedin:false
 }
-
 
 const userSlice = createSlice({
     name:"user",
@@ -33,7 +35,7 @@ const userSlice = createSlice({
             state.isLoggedin = true;
             console.log("slice user added",state.email,state.username,state.isLoggedin);
             // local storage
-            localStorage.setItem("user",JSON.stringify([state.username,state.email,state.isLoggedin]));
+            localStorage.setItem("user",JSON.stringify({user:state.username,email:state.email,isLoggedin:state.isLoggedin}));
 
         },
         // logout

@@ -11,11 +11,13 @@ export default function ProfilePage({ navigation }) {
   
   useEffect(() => {
     // REDUX
-    console.log("redux", userinfo);
+    console.log("localData", userinfo.localData);
+    setUser(userinfo.localData);
+
     // firebase
-    return auth.onAuthStateChanged((user) => {
-      setUser(user.auth.currentUser);
-    });
+    // return auth.onAuthStateChanged((user) => {
+    //   setUser(user.auth.currentUser);
+    // });
   }, [user]);
 
   const handleClickLogOut = () => {
@@ -34,8 +36,7 @@ export default function ProfilePage({ navigation }) {
         </Button>
         <Card style={{ width: "80%", margin: 20 }}>
           <Card.Content>
-            <Subheading>{user.displayName}</Subheading>
-            {/* <Paragraph>{user.currentUser}</Paragraph> */}
+            <Subheading>{user.user}</Subheading>
             <Paragraph>{user.email}</Paragraph>
           </Card.Content>
         </Card>
