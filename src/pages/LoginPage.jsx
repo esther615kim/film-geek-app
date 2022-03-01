@@ -11,7 +11,7 @@ export default function LoginPage({ navigation }) {
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user_id,setId] = useState(null);
+  const [id,setId] = useState(null);
 
   const formData = { email, password };
   const dispatch = useDispatch();
@@ -37,9 +37,11 @@ export default function LoginPage({ navigation }) {
           user && dispatch(ADD_USERNAME(user));
           // ID
           setId(user.uid);
-          user_id&& dispatch(ADD_ID(user_id));
+          id && dispatch(ADD_ID(id));
         });
 
+        //add user_id
+        user.uid && dispatch(ADD_ID(user.uid));
 
         dispatch(ADD_USER(formData));
         navigation.navigate("Landing");

@@ -15,8 +15,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 const RootStack = createStackNavigator();
 
 export const StackNavigator = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const userinfo = useSelector((state) => state.userInfo);
 
 const [loggedIn, setLoggedIn] = useState(false);
 const userinfo = useSelector((state) => state.userInfo); // REDUX
