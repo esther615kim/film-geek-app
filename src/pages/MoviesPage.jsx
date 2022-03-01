@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { Text, View, ScrollView } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect } from "react";
 import { Card, Title, Paragraph, Searchbar } from "react-native-paper";
 import Pagination from "../components/Pagination";
-import { current } from "@reduxjs/toolkit";
 
 const MoviesPage = ({ navigation }) => {
   const [fullMoviesList, setFullMoviesList] = useState([]);
   const [moviesData, setMoviesData] = useState([]);
-  const [sortMethod, setSortMethod] = useState("unknown");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -28,23 +25,12 @@ const MoviesPage = ({ navigation }) => {
     setMoviesData(fullMoviesList.slice(indexOfFirstMovie, indexOfLastMovie));
   }, [currentPage]);
 
-  useEffect(() => {});
-
   useEffect(() => {
-    if (searchTerm) {
-      const filteredMovies = fullMoviesList.filter((movie) =>
-        movie.title.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-      setMoviesData(filteredMovies);
-    }
+    const filteredMovies = fullMoviesList.filter((movie) =>
+      movie.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    setMoviesData(filteredMovies);
   }, [searchTerm]);
-
-  function handlePress(movieID) {
-    console.log(movieID);
-    // // TODO Use currentUser Obj
-    // const user = "Hamas";
-    navigation.navigate("View Movie", { movieID: movieID });
-  }
 
   useEffect(() => {
     async function getMovieData() {
@@ -52,49 +38,29 @@ const MoviesPage = ({ navigation }) => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        const indexOfLastMovie = currentPage * moviesPerPage;
-        const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-        setMoviesData(docSnap.data().movies.slice(indexOfFirstMovie, indexOfLastMovie));
         setFullMoviesList(docSnap.data().movies);
+        setMoviesData(docSnap.data().movies);
       }
     }
     getMovieData();
   }, []);
 
-  const handleSortMethodChange = (sortMethod) => {
-    setSortMethod(sortMethod);
-    if (sortMethod === "name") {
-      const sortedMovies = moviesData.sort((a, b) => a.title.localeCompare(b.title));
-      setMoviesData(sortedMovies);
-    } else if (sortMethod === "year") {
-      const sortedMovies = moviesData.sort((a, b) => b.year - a.year);
-      setMoviesData(sortedMovies);
-    }
-  };
-
   return (
     <ScrollView>
-      {moviesData ? (
-        <View>
-          <Searchbar
-            placeholder="Search"
-            onChangeText={(e) => setSearchTerm(e)}
-            value={searchTerm}
-          />
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-            <Picker
-              selectedValue={sortMethod}
-              style={{ height: 50, width: 150 }}
-              onValueChange={(sortMethod) => handleSortMethodChange(sortMethod)}
+      <Searchbar placeholder="Search" onChangeText={(e) => setSearchTerm(e)} value={searchTerm} />
+      <Pagination
+        moviesPerPage={moviesPerPage}
+        totalMovies={fullMoviesList.length}
+        paginate={paginate}
+      />
+      {moviesData.length !== 0 ? (
+        moviesData.map((movie) => (
+          <View key={movie.id}>
+            <Card
+              onPress={() => {
+                navigation.navigate("View Movie", { movie });
+              }}
             >
-              <Picker.Item label="Sort by" value="unknown" enabled={false} />
-              <Picker.Item label="Name (A-Z)" value="name" />
-              <Picker.Item label="Year of Release (descending)" value="year" />
-            </Picker>
-          </View>
-
-          {moviesData.map((movie) => (
-            <Card key={movie.id} onPress={() => handlePress(movie.id)}>
               <Card.Cover
                 source={{
                   uri: movie.posterUrl,
@@ -103,16 +69,10 @@ const MoviesPage = ({ navigation }) => {
               <Card.Content>
                 <Title>{movie.title}</Title>
                 <Paragraph>{movie.plot}</Paragraph>
-                <Text style={{ fontStyle: "italic", textAlign: "right" }}>{movie.year}</Text>
               </Card.Content>
             </Card>
-          ))}
-          <Pagination
-            moviesPerPage={moviesPerPage}
-            totalMovies={fullMoviesList.length}
-            paginate={paginate}
-          />
-        </View>
+          </View>
+        ))
       ) : (
         <Text>Loading movies...</Text>
       )}
