@@ -18,13 +18,9 @@ export const StackNavigator = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const userinfo = useSelector((state) => state.userInfo);
 
-const [loggedIn, setLoggedIn] = useState(false);
-const userinfo = useSelector((state) => state.userInfo); // REDUX
-
-useEffect(()=>{
-  setLoggedIn(userinfo.isLoggedin);
-},[userinfo])
-
+  useEffect(() => {
+    setLoggedIn(userinfo.isLoggedin);
+  }, [userinfo]);
 
   return (
     <RootStack.Navigator>
