@@ -32,13 +32,6 @@ const MoviesPage = ({ navigation }) => {
     setMoviesData(filteredMovies);
   }, [searchTerm]);
 
-  function handlePress(movieID) {
-    console.log(movieID);
-    // // TODO Use currentUser Obj
-    // const user = "Hamas";
-    navigation.navigate("View Movie", { movieID: movieID });
-  }
-
   useEffect(() => {
     async function getMovieData() {
       const docRef = doc(db, "movieData", "qWEaphXhRnZGlArWxqIo");
@@ -63,7 +56,11 @@ const MoviesPage = ({ navigation }) => {
       {moviesData.length !== 0 ? (
         moviesData.map((movie) => (
           <View key={movie.id}>
-            <Card onPress={() => handlePress(movie.id)}>
+            <Card
+              onPress={() => {
+                navigation.navigate("View Movie", { movie });
+              }}
+            >
               <Card.Cover
                 source={{
                   uri: movie.posterUrl,
