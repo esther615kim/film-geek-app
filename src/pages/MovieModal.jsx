@@ -14,8 +14,8 @@ import MovieDetail from "../components/Movies/MovieDetail";
 import CommentsList from "../components/Comments/CommentsList";
 
 export default function MovieModal({ route, navigation }) {
-  const { movieID } = route.params;
-  console.log(movieID);
+  const { movie } = route.params;
+  console.log(movie);
   // TODO Add Current User
   const [username, setUsername] = useState("Hamas");
   //const [movieID, setmovieID] = useState(1);
