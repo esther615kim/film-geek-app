@@ -10,7 +10,7 @@ const COMMENTS_PATH = 'Comments';
 
 const initialState = { isLoading: true, comments: [], hasError: false, errors: [] };
 
-export default function useComments() {
+export default function useComments(filmId) {
   const [state, dispatch] = useReducer(commentReducer, initialState);
 
   // TODO DELETE Remove debugging code
@@ -20,7 +20,9 @@ export default function useComments() {
 
   useEffect(() => {
     dispatch({ type: COMMENT_LOADING });
-    const q = query(collection(db, COMMENTS_PATH), orderBy("created_at", "desc"));
+    const q = query(collection(db, COMMENTS_PATH), 
+      //where("filmId", "==", filmId), // Requires an Index on film_id
+      orderBy("created_at", "desc"));
     dispatch({ type: COMMENT_LOADED });
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.docChanges().forEach((change) => {

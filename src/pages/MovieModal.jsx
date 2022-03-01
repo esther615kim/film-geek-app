@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   Text,
   TextInput,
@@ -8,26 +9,31 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
+
 import { getComments, deleteComment } from "../utils/api";
 import { postUserComment } from "../utils/api";
+
+import useComments from "../hooks/useComments";
 import MovieDetail from "../components/Movies/MovieDetail";
 import CommentsList from "../components/Comments/CommentsList";
 
+
 export default function MovieModal({ route, navigation }) {
   const { movie } = route.params;
-  console.log(movie);
-  // TODO Add Current User
-  const [username, setUsername] = useState("Hamas");
-  //const [movieID, setmovieID] = useState(1);
-  const [comments, setComments] = useState("");
-  const [errors, setErrors] = useState([]);
-  const [comment, setComment] = useState([]);
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const userinfo = useSelector((state) => state.userInfo);
 
   useEffect(() => {
-    getComments().then((comments) => {
-      setComments(comments);
-    });
-  }, []);
+    setLoggedIn(userinfo.isLoggedin);
+    console.log(userinfo.isLoggedin);
+  }, [userinfo]);
+
+  const [username, setUsername] = useState("User1"); // TODO set uid
+  const [filmId, setFileId] = useState(movie?.id);
+  const [errors, setErrors] = useState([]);
+  const [comment, setComment] = useState([]);
+  const [isLoading, comments] = useComments(filmId);
 
   function handleOnSubmit() {
     if (!comment) {
@@ -35,12 +41,11 @@ export default function MovieModal({ route, navigation }) {
       Alert.alert("comment", "Comment must not be blank.");
       setErrors((curr) => [...curr, "Comment must not be blank."]);
     } else {
-      const newComment = { movieID, username, comment };
+      const newComment = { filmId, uid: username, username, comment }; // TODO DisplayName Needed
       postUserComment(newComment).then((id) => {
-        // DP
         newComment.comment_id = id;
         newComment.created_at = new Date();
-        setComments((currComments) => [newComment, ...currComments]);
+        //setComments((currComments) => [newComment, ...currComments]);
       });
       setErrors([]);
     }
@@ -48,9 +53,9 @@ export default function MovieModal({ route, navigation }) {
 
   function handleDeleteComment(comment_id) {
     // TODO Optimistic Render
-    setComments((currComments) =>
-      currComments.filter((comment) => comment.comment_id !== comment_id),
-    );
+    // setComments((currComments) =>
+    //   currComments.filter((comment) => comment.comment_id !== comment_id),
+    // );
     deleteComment(comment_id).catch(console.info("Delete Comment Failed"));
   }
 
@@ -64,7 +69,7 @@ export default function MovieModal({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <MovieDetail />
+      <MovieDetail movie={movie} />
       <View>
         <Text style={styles.title}>Add a Comment</Text>
         {/* <Text>Username</Text>

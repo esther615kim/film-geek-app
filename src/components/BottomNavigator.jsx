@@ -58,6 +58,8 @@ export default function MyTabs() {
             iconName = "person";
           } else if (route.name === "Quiz") {
             iconName = "list";
+          } else if (route.name === "Chat") {
+            iconName = "chatbox";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },

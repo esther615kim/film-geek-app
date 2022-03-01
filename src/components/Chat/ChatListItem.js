@@ -1,13 +1,9 @@
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { isEven } from "../../utils";
+
 export default function ChatListItem({ item, index }) {
-
-    function handleClick() {
-        console.log('Get Here');
-    }
-
   return (
-    <View style={isEven(index) ? styles.messageLeft : styles.messageRight} onClick={handleClick}>
+    <View style={isEven(index) ? styles.messageLeft : styles.messageRight}>
       <Text style={styles.textUsername}>{item.username}</Text>
       <Text style={styles.textMessage}>{item.message}</Text>
     </View>

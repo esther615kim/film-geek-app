@@ -63,7 +63,6 @@ export async function getUserComments(username) {
     const comments = [];
     querySnapshot.forEach((doc) => {
       //console.log(doc.data());
-//      comments.push({ comment_id: doc.id, ...doc.data() });
       const comment = { comment_id: doc.id, ...doc.data() };
       comments.push({ ...comment, created_at: fsDateToJsDate(comment.created_at) } );
     });

@@ -6,7 +6,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { CHAT_LOADING, CHAT_LOADED, CHAT_ADDED, CHAT_MODIFIED, CHAT_REMOVED, CHAT_ERROR } from "./reducers/constants";
 import chatReducer from "./reducers/chatReducer";
 
-const CHAT_MESSAGES_PATH = 'msgs';
+const CHAT_MESSAGES_PATH = 'Messages';
 
 const initialState = { isLoading: true, messages: [], hasError: false, errors: [] };
 
