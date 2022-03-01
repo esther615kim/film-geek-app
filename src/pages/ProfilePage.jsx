@@ -18,7 +18,7 @@ export default function ProfilePage({ navigation }) {
     // return auth.onAuthStateChanged((user) => {
     //   setUser(user.auth.currentUser);
     // });
-  }, [user]);
+  }, [userinfo]);
 
   const handleClickLogOut = () => {
     console.log("logout");

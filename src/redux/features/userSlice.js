@@ -7,13 +7,15 @@ import {
   } from "firebase/auth";
   import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
+const localUserData = localStorage.getItem("user")? 
+JSON.parse(localStorage.getItem("user"))
+:null;
+
 const initialState = {
-    localData:localStorage.getItem("user")? 
-    JSON.parse(localStorage.getItem("user"))
-    :null,
-    username:null,
-    email:null,
-    isLoggedin:false
+    localData:localUserData,
+    username:localUserData? localUserData.user:null,
+    email:localUserData? localUserData.email:null,
+    isLoggedin:localUserData? localUserData.isLoggedin:null
 }
 
 const userSlice = createSlice({
@@ -40,9 +42,12 @@ const userSlice = createSlice({
         },
         // logout
         LOGOUT(state){
-            state.name = null;
-            state.email = null,
-            state.isLoggedin = false;
+            // firebase
+            
+            // REDUX
+            localStorage.removeItem("user");
+            localUserData.length=0;
+            console.log("local",localUserData);
             console.log("user logged out",state.isLoggedin);
         }
         
