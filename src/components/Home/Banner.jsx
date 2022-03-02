@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, Text, ScrollView } from "react-native";
+import { TouchableOpacity, Text, ScrollView, View } from "react-native";
 
 export default function Banner() {
   const handleClickCard = (e) => {
@@ -7,7 +7,7 @@ export default function Banner() {
     console.log("category", e.target.value);
   };
   return (
-    <div>
+    <View>
       <ScrollView horizontal indivatorSTyle={"white"} style={{ padding: 10 }}>
         <TouchableOpacity
           style={{
@@ -15,7 +15,7 @@ export default function Banner() {
             height: 40,
             padding: 10,
             backgroundColor: "#fdc453",
-            textAlign:"center",
+            textAlign: "center",
             borderRadius: 15,
             margin: 5,
           }}
@@ -28,7 +28,7 @@ export default function Banner() {
             height: 40,
             padding: 10,
             backgroundColor: "#fe8d6f",
-            textAlign:"center",
+            textAlign: "center",
             borderRadius: 15,
             margin: 5,
           }}
@@ -40,7 +40,7 @@ export default function Banner() {
             width: 80,
             height: 40,
             padding: 10,
-            textAlign:"center",
+            textAlign: "center",
             backgroundColor: "#9adbc5",
             borderRadius: 15,
             margin: 5,
@@ -54,7 +54,7 @@ export default function Banner() {
             height: 40,
             padding: 10,
             backgroundColor: "#3275a8",
-            textAlign:"center",
+            textAlign: "center",
             borderRadius: 15,
             margin: 5,
           }}
@@ -62,7 +62,7 @@ export default function Banner() {
           <Text>Drama</Text>
         </TouchableOpacity>
       </ScrollView>
-    </div>
+    </View>
   );
 }
 
