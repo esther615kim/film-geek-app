@@ -1,17 +1,22 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Platform, Button, Alert } from "react-native";
+import { Text, View, Button, StyleSheet, Platform, Alert } from "react-native";
 import { TextInput, Headline } from "react-native-paper";
 import { Link } from "@react-navigation/native";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./../firebase/config";
+import { useDispatch } from "react-redux";
+import { ADD_ID, ADD_USER } from "../redux/features/userSlice";
 
-export default function SignUpPage() {
+export default function SignUpPage({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user_id,setId] = useState(null);
 
   const formData = { name, email, password };
+
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,25 +29,30 @@ export default function SignUpPage() {
       const user = userCredential.user;
 
       updateProfile(auth.currentUser, {
-        username: name,
+        displayName: name,
       });
 
       const formDataCopy = { ...formData };
       delete formDataCopy.password;
-      formDataCopy.timestamp = serverTimestamp(); // timestamp
-
-      console.log(formDataCopy);
+      formDataCopy.timestamp = serverTimestamp();
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
+      //hadnling async && add user_id
+      auth.onAuthStateChanged(() => {
+        setId(user.uid);
+        user_id && dispatch(ADD_ID(user_id));
+      });
 
-      console.log("user registered");
+      console.log("user registered"); // firebase
+      dispatch(ADD_USER(formData)); // REDUX
+      navigation.navigate("Landing");
     } catch (err) {
       console.log(err);
     }
   };
   return (
     <>
-      <form style={{ padding: 20 }}>
+      <View style={{ backgroundColor: "#333540", padding: 40, flex: 1 }}>
         <Headline style={{ color: "#fff" }}>Sign Up</Headline>
         <View>
           <Text style={styles.label}>Username</Text>
@@ -68,6 +78,8 @@ export default function SignUpPage() {
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
+            secureTextEntry
+            right={<TextInput.Icon name="eye" />}
             value={password}
             onChangeText={(password) => {
               setPassword(password);
@@ -80,8 +92,18 @@ export default function SignUpPage() {
 
         <Button style={styles.button} title="Register" onPress={handleSubmit} />
 
-        <Text style={styles.label}>Already Sign up?</Text>
-      </form>
+        {/* navigate to Signup */}
+        <Link style={{ padding: 20, textAlign: "center", color: "#fff" }} to={{ screen: "Home" }}>
+          <Text
+            onPress={() => {
+              console.log("move to Login");
+              navigation.navigate("Landing");
+            }}
+          >
+            Already signed up?
+          </Text>
+        </Link>
+      </View>
     </>
   );
 }
@@ -109,6 +131,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 40,
     marginTop: 20,
+    marginBottom: 20,
   },
 
   button: {

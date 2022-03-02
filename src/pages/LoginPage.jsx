@@ -1,31 +1,47 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Platform, Button, Alert, useColorScheme } from "react-native";
-import { TextInput, Headline } from "react-native-paper";
-import { Link } from "@react-navigation/native";
+import { Text, View, StyleSheet, Platform } from "react-native";
+import { TextInput, Headline, Button } from "react-native-paper";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "./../firebase/config";
 import GAuth from "../components/Auth/GAuth";
+import { useDispatch } from "react-redux";
+import { ADD_USER, ADD_ID } from "../redux/features/userSlice";
+import { ADD_USERNAME } from "../redux/features/userSlice";
 
-export default function LoginPage() {
+export default function LoginPage({ navigation }) {
+  const [username, setUsername] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user_id, setId] = useState(null);
 
   const formData = { email, password };
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  const handleClickSignUp = () => {
+    navigation.navigate("Sign Up");
+  };
+
+  const handleClickSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log("exisiting info", formData);
 
     try {
       const auth = getAuth();
-
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
       const user = userCredential.user;
+
       if (userCredential.user) {
-        console.log("logged in!");
-        // navigate to Main Page
+        // handling async
+        auth.onAuthStateChanged(() => {
+          setUsername(userCredential.user.displayName);
+          console.log("updated username", username);
+          username && dispatch(ADD_USERNAME(username));
+          // ID
+          setId(user.uid);
+          user_id && dispatch(ADD_ID(user_id));
+        });
+
+        dispatch(ADD_USER(formData));
+        navigation.navigate("Landing");
       }
     } catch (err) {
       console.log(err);
@@ -33,7 +49,7 @@ export default function LoginPage() {
   };
   return (
     <>
-      <View style={styles.container}>
+      <View style={{ backgroundColor: "#333540", padding: 40, flex: 1 }}>
         <Headline style={{ color: "#fff" }}>Login</Headline>
         <View>
           <Text style={styles.label}>Email</Text>
@@ -57,24 +73,28 @@ export default function LoginPage() {
               setPassword(password);
             }}
           ></TextInput>
-
-          <Button title="Log In" onPress={handleSubmit} />
+          <Button icon="account" mode="contained" onPress={handleClickSubmit}>
+            Log In
+          </Button>
         </View>
-        {/* navigate to Signup */}
-        <Text style={styles.signup}>Sign Up?</Text>
-        <GAuth />
+        <Text
+          style={{ padding: 20, textAlign: "center", color: "#fff" }}
+          onPress={handleClickSignUp}
+        >
+          Sign Up?
+        </Text>
+        <View style={styles.view}>
+          <GAuth />
+        </View>
       </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 40,
+  view: {
     flex: 1,
     alignItems: "center",
-    // paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#333540",
   },
   title: {
     fontSize: 20,
@@ -91,20 +111,22 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   signup: {
-    textAlign:"center",
-    fontSize:16,
+    textAlign: "center",
+    fontSize: 16,
     color: "#fff",
-    padding:40,
-    paddingBottom:20
+    padding: 40,
+    paddingBottom: 20,
   },
   input: {
     minWidth: 240,
     height: 40,
   },
+  button: {
+    backgroundColor: "blue",
+  },
   password: {
     width: "100%",
     height: 40,
-    marginBottom:40
+    marginBottom: 40,
   },
-
 });

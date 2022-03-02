@@ -13,6 +13,8 @@ const SingleMoviePage = () => (
       <Paragraph>When the Riddler, a sadistic serial killer, begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption and question his family's involvement.</Paragraph>
     </Card.Content>
   </Card>
+  {/* COMMENTS  */}
+  
   </View>
 );
 
