@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect } from "react";
 
-import Banner from '../components/Home/Banner';
+import Banner from "../components/Home/Banner";
 import { Card, Title, Paragraph, Searchbar } from "react-native-paper";
 import Pagination from "../components/Pagination";
 
@@ -28,8 +28,6 @@ const MoviesPage = ({ navigation }) => {
     setMoviesData(fullMoviesList.slice(indexOfFirstMovie, indexOfLastMovie));
   }, [currentPage]);
 
-  useEffect(() => {});
-
   useEffect(() => {
     if (searchTerm) {
       const filteredMovies = fullMoviesList.filter((movie) =>
@@ -38,13 +36,6 @@ const MoviesPage = ({ navigation }) => {
       setMoviesData(filteredMovies);
     }
   }, [searchTerm]);
-
-  function handlePress(movieID) {
-    console.log(movieID);
-    // // TODO Use currentUser Obj
-    // const user = "Hamas";
-    navigation.navigate("View Movie", { movieID: movieID });
-  }
 
   useEffect(() => {
     async function getMovieData() {
@@ -74,51 +65,56 @@ const MoviesPage = ({ navigation }) => {
 
   return (
     <>
-    <Banner/>
-    <ScrollView>
-      {moviesData ? (
-        <View>
-          <Searchbar
-            placeholder="Search"
-            onChangeText={(e) => setSearchTerm(e)}
-            value={searchTerm}
-          />
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-            <Picker
-              selectedValue={sortMethod}
-              style={{ height: 50, width: 150 }}
-              onValueChange={(sortMethod) => handleSortMethodChange(sortMethod)}
-            >
-              <Picker.Item label="Sort by" value="unknown" enabled={false} />
-              <Picker.Item label="Name (A-Z)" value="name" />
-              <Picker.Item label="Year of Release (descending)" value="year" />
-            </Picker>
-          </View>
+      <Banner />
+      <ScrollView>
+        {moviesData ? (
+          <View>
+            <Searchbar
+              placeholder="Search"
+              onChangeText={(e) => setSearchTerm(e)}
+              value={searchTerm}
+            />
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+              <Picker
+                selectedValue={sortMethod}
+                style={{ height: 50, width: 150 }}
+                onValueChange={(sortMethod) => handleSortMethodChange(sortMethod)}
+              >
+                <Picker.Item label="Sort by" value="unknown" enabled={false} />
+                <Picker.Item label="Name (A-Z)" value="name" />
+                <Picker.Item label="Year of Release (descending)" value="year" />
+              </Picker>
+            </View>
 
-          {moviesData.map((movie) => (
-            <Card key={movie.id} onPress={() => handlePress(movie.id)}>
-              <Card.Cover
-                source={{
-                  uri: movie.posterUrl,
+            {moviesData.map((movie) => (
+              <Card
+                key={movie.id}
+                onPress={() => {
+                  navigation.navigate("View Movie", { movie });
                 }}
-              />
-              <Card.Content>
-                <Title>{movie.title}</Title>
-                <Paragraph>{movie.plot}</Paragraph>
-                <Text style={{ fontStyle: "italic", textAlign: "right" }}>{movie.year}</Text>
-              </Card.Content>
-            </Card>
-          ))}
-          <Pagination
-            moviesPerPage={moviesPerPage}
-            totalMovies={fullMoviesList.length}
-            paginate={paginate}
-          />
-        </View>
-      ) : (
-        <Text>Loading movies...</Text>
-      )}
-    </ScrollView>
+              >
+                <Card.Cover
+                  source={{
+                    uri: movie.posterUrl,
+                  }}
+                />
+                <Card.Content>
+                  <Title>{movie.title}</Title>
+                  <Paragraph>{movie.plot}</Paragraph>
+                  <Text style={{ fontStyle: "italic", textAlign: "right" }}>{movie.year}</Text>
+                </Card.Content>
+              </Card>
+            ))}
+            <Pagination
+              moviesPerPage={moviesPerPage}
+              totalMovies={fullMoviesList.length}
+              paginate={paginate}
+            />
+          </View>
+        ) : (
+          <Text>Loading movies...</Text>
+        )}
+      </ScrollView>
     </>
   );
 };
