@@ -12,7 +12,6 @@ import {
   FlatList,
 } from "react-native";
 
-//import useAuth from "../hooks/useAuth";
 import useChat from "../hooks/useChat";
 
 import ChatsList from '../components/Chat/ChatsList';
@@ -27,19 +26,13 @@ export default function ChatPage({ navigation, route }) {
   }, [userinfo]);
 
   const [username, setUsername] = useState("User1");
-  const [message, setMessage] = useState("My name is User1");
-
-  //const [isLoggedIn, currentUser] = useAuth();
+  const [message, setMessage] = useState("");
   const [isLoading, messages] = useChat(username);
-
-  // function handleChatModalOnPress() {
-  //   navigation.navigate("Add Chat");
-  // }
 
   function handleOnPress() {
     console.log('USERINFO', userinfo);
     console.warn( username, message );
-    postUserMessage({ user_id: userinfo.email, username, message }).then((message_id) => {
+    postUserMessage({ uid: username, username, message }).then((message_id) => {
       console.log("message_id", message_id);
     });
   }
