@@ -1,21 +1,17 @@
 import {
-  Picker,
   View,
   Text,
   SafeAreaView,
-  StatusBar,
   FlatList,
-  Image,
   TouchableOpacity,
-  SectionList,
   StyleSheet,
   Modal,
 } from "react-native";
-import React, { useEffect, useState, useReducer } from "react";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { Button } from "react-native-paper";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const generateRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -29,42 +25,39 @@ const ListHeader = (item) => {
   );
 };
 
-const correctAnsArr = [];
-
-export default function MultipleChoice() {
+export default function MultipleChoice({ route }) {
   const [quizData, setQuizData] = useState([]);
-
-  const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
-
   const [questCount, setQuestCount] = useState(0); // <-- increment 'onNext'
   const [scoreCount, setScoreCount] = useState(0); // <--- inc/decrement 'onNext'
   const [currQuestion, setCurrQuestion] = useState([]);
-  const [currAnswer, setCurrAnswer] = useState("");
-  const [correctAns, setCorrectAns] = useState("");
-  const [correctAnsArr, setCorrectAnsArr] = useState([]);
-
-  const [clickedBtn, setClickedBtn] = useState(0); // top
-
   const [modalOpen, setModalOpen] = useState(false);
-
   const [currOptions, setcurrOptions] = useState([]);
   const [currQName, setCurrQName] = useState("");
+
   let formatQns = [];
   let formatOptns = [];
   const formatQnsArr = [];
 
-  function reducer(state, action) {}
+  const { difficulty } = route.params;
 
   useEffect(() => {
     async function readQuizData() {
-      const docRef = doc(db, "quizData", "pSf1qAQUlGaztNDrcBjB");
-      console.log("Reading quizData in Firestore...");
+      let docRef;
+
+      if (difficulty === "easy") {
+        docRef = doc(db, "quizData", "pSf1qAQUlGaztNDrcBjB");
+      } else if (difficulty === "medium") {
+        docRef = doc(db, "mediumQuiz", "mediumQuiz");
+      } else {
+        docRef = doc(db, "hardQuiz", "hardQuiz");
+      }
+
+      console.log("Reading quiz data from Firestore...");
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         const questionData = docSnap.data().results;
-        // console.log(questionData, '<< initial questionData')
-        console.log("quizData retrieved.");
+        console.log("Quiz data retrieved.");
         let newObject;
         // Add the correct answer to the incorrect_answers array at a random index between 0 and 2.
         questionData.forEach((questionData) => {
@@ -103,14 +96,11 @@ export default function MultipleChoice() {
       }
     }
     readQuizData();
-    // extract options data into array
-  }, [questCount]);
+  }, [questCount, difficulty]);
 
   const myRefs = React.useRef([]);
   const ItemComp = (formattedOptns) => {
-    const destructured = formattedOptns;
-
-    const highlight = (itemId, event) => {
+    const highlight = (itemId) => {
       myRefs.current[itemId].setNativeProps({ style: { backgroundColor: "blue" } });
     };
 
@@ -170,7 +160,6 @@ export default function MultipleChoice() {
               size={24}
               style={styles.modalToggle}
               onPress={() => setModalOpen(false)}
-              text="hi"
             />
             <Text>
               You scored {scoreCount} out of {quizData.length} questions correctly!{" "}
@@ -200,15 +189,12 @@ export default function MultipleChoice() {
 
   return (
     <SafeAreaView>
-      <Button>{"hi"}</Button>
-
       <FlatList
         data={currOptions}
         renderItem={renderzItem}
         keyExtractor={(item) => item.option}
         ListHeaderComponent={ListHeader(currQName)}
       />
-
       <NextComp />
       <ResultsModal />
     </SafeAreaView>
