@@ -28,13 +28,12 @@ export const StackNavigator = () => {
         <RootStack.Screen
           options={{ headerShown: false }}
           name="Landing"
-          component={loggedIn ? MoviesPage : LoginPage}
+          component={MoviesPage}
+          // component={loggedIn ? MoviesPage : LoginPage}
         />
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal" }}>
         <RootStack.Screen name="View Movie" component={MovieModal} />
-        <RootStack.Screen name="Quiz Page" component={MultipleChoice} />
-        {/* <RootStack.Screen name="Add Comment" component={CommentModal} /> */}
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal" }}>
         <RootStack.Screen name="Sign Up" component={SignUpPage} />

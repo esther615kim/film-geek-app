@@ -1,4 +1,5 @@
 import React from "react";
+import { Headline, Subheading } from 'react-native-paper';
 import { Link } from "@react-navigation/native";
 import { TouchableOpacity, Text, ScrollView, View } from "react-native";
 
@@ -8,20 +9,23 @@ export default function Banner({ navigation, moveToQuizPage }) {
   };
   return (
     <View>
+              <Subheading style={{fontSize:22,fontWeight:600, padding:20, paddingBottom:5}}>Quizzes</Subheading>
       <ScrollView horizontal indivatorSTyle={"white"} style={{ padding: 10 }}>
         <TouchableOpacity
           onPress={handleClickCard}
           style={{
-            width: 80,
-            height: 40,
-            padding: 10,
-            backgroundColor: "#fdc453",
-            textAlign: "center",
+            minWdth: 100,
+            height: 80,
+            padding: 20,
+            paddingBottom:15,
+            textAlign:"center",
+            backgroundColor: "#fe8d6f",
             borderRadius: 15,
-            margin: 5,
+            color:"#fff",
+            margin: 10,
           }}
         >
-          <Text>Easy</Text>
+ <Subheading style={{color:"#fff",fontSize:20}}>Movies:Easy</Subheading>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -29,42 +33,33 @@ export default function Banner({ navigation, moveToQuizPage }) {
             navigation.navigate("Quiz");
           }}
           style={{
-            width: 80,
-            height: 40,
-            padding: 10,
-            backgroundColor: "#fe8d6f",
-            textAlign: "center",
+            minWdth: 100,
+            height: 80,
+            padding: 20,
+            paddingBottom:15,
+            textAlign:"center",
+            backgroundColor:"#9adbc5",
+            backgroundColor:"#3275a8",
             borderRadius: 15,
-            margin: 5,
+            margin: 10,
           }}
         >
-          <Text>Difficult</Text>
+           <Subheading style={{color:"#fff",fontSize:20}}>Movies:Medium</Subheading>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width: 80,
-            height: 40,
-            padding: 10,
-            textAlign: "center",
-            backgroundColor: "#9adbc5",
+            minWdth: 100,
+            height: 80,
+            padding: 20,
+            paddingBottom:15,
+            textAlign:"center",
+            backgroundColor:"#9adbc5",
             borderRadius: 15,
-            margin: 5,
+            color:"#fff",
+            margin: 10,
           }}
         >
-          <Text>History</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: 80,
-            height: 40,
-            padding: 10,
-            backgroundColor: "#3275a8",
-            textAlign: "center",
-            borderRadius: 15,
-            margin: 5,
-          }}
-        >
-          <Text>Drama</Text>
+          <Subheading style={{color:"#fff",fontSize:20}}>Movies:Difficult</Subheading>
         </TouchableOpacity>
       </ScrollView>
     </View>

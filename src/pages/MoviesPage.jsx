@@ -68,25 +68,26 @@ const MoviesPage = ({ navigation }) => {
   }
 
   return (
-    <>
+    <View style={{backgroundColor: "#0a152b",color:"#fff"}}>
       <Banner navigation={navigation} moveToQuizPage={moveToQuizPage} />
-      <ScrollView>
+      <ScrollView >
         {moviesData ? (
-          <View>
-            <Searchbar
+          <View style={{margin:10}}>
+            <Searchbar style={{borderRadius:10,backgroundColor:"#0a152b",color:"#fff"}}
+          
               placeholder="Search"
               onChangeText={(e) => setSearchTerm(e)}
               value={searchTerm}
             />
-            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              <Picker
+            <View style={{ flexDirection: "row", justifyContent: "flex-end",backgroundColor:"#0a152b",color:"#fff", paddingBottom:5}}>
+              <Picker 
                 selectedValue={sortMethod}
-                style={{ height: 50, width: 150 }}
+                style={{ height: 40, width: 90 ,backgroundColor:"#0a152b",color:"#fff" }}
                 onValueChange={(sortMethod) => handleSortMethodChange(sortMethod)}
               >
-                <Picker.Item label="Sort by" value="unknown" enabled={false} />
-                <Picker.Item label="Name (A-Z)" value="name" />
-                <Picker.Item label="Year of Release (descending)" value="year" />
+                <Picker.Item style={{backgroundColor:"#0a152b",color:"#fff",fontSize:5 }}label="Sort by" value="unknown" enabled={false} />
+                <Picker.Item style={{backgroundColor:"#0a152b",color:"#fff",fontSize:5  }} label="Name (A-Z)" value="name" />
+                <Picker.Item style={{backgroundColor:"#0a152b",color:"#fff",fontSize:5  }} label="Year of Release (descending)" value="year" />
               </Picker>
             </View>
 
@@ -119,7 +120,7 @@ const MoviesPage = ({ navigation }) => {
           <Text>Loading movies...</Text>
         )}
       </ScrollView>
-    </>
+    </View>
   );
 };
 
