@@ -1,22 +1,24 @@
-import { useEffect } from "react";
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  signOut,
-  getAdditionalUserInfo,
-} from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-let localUserData = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+let localUserData;
+
+const getUserData = async () => {
+  localUserData = await AsyncStorage.getItem("user");
+  if (localUserData) {
+    localUserData = JSON.parse(AsyncStorage.getItem("user"));
+  }
+};
+
+getUserData();
 
 const initialState = {
   localData: localUserData,
   username: localUserData ? localUserData.user : null,
   email: localUserData ? localUserData.email : null,
   isLoggedin: localUserData ? localUserData.isLoggedin : null,
-  id:localUserData ? localUserData.id : null,
+  id: localUserData ? localUserData.id : null,
 };
 
 const userSlice = createSlice({
@@ -39,13 +41,13 @@ const userSlice = createSlice({
       state.isLoggedin = true;
       console.log("slice user added", state.email, state.username, state.isLoggedin);
       // local storage
-      localStorage.setItem(
+      AsyncStorage.setItem(
         "user",
         JSON.stringify({
           user: state.username,
           email: state.email,
           isLoggedin: state.isLoggedin,
-          id:state.id,
+          id: state.id,
         }),
       );
     },
@@ -58,7 +60,7 @@ const userSlice = createSlice({
       // REDUX
       localUserData = null;
       console.log("local", localUserData);
-      localStorage.removeItem("user");
+      AsyncStorage.removeItem("user");
       // additional
       state.email = null;
       state.isLoggedin = false;
@@ -72,36 +74,36 @@ const userSlice = createSlice({
       state.username = userName;
       console.log("name updated", state.username);
       // local storage
-      localStorage.setItem(
+      AsyncStorage.setItem(
         "user",
         JSON.stringify({
           user: state.username,
           email: state.email,
           isLoggedin: state.isLoggedin,
-          id:state.id,
+          id: state.id,
         }),
       );
     },
-    ADD_ID(state,action) {
-        // add user iD 
-        const userId = {
-            ...action.payload,
-          };
-        state.id = userId;
-        console.log("ID updated", state.id);
-              // local storage
-      localStorage.setItem(
+    ADD_ID(state, action) {
+      // add user iD
+      const userId = {
+        ...action.payload,
+      };
+      state.id = userId;
+      console.log("ID updated", state.id);
+      // local storage
+      AsyncStorage.setItem(
         "user",
         JSON.stringify({
           user: state.username,
           email: state.email,
           isLoggedin: state.isLoggedin,
-          id:state.id,
+          id: state.id,
         }),
       );
-    }
+    },
   },
 });
 
-export const { ADD_USER, LOGOUT, ADD_USERNAME,ADD_ID } = userSlice.actions;
+export const { ADD_USER, LOGOUT, ADD_USERNAME, ADD_ID } = userSlice.actions;
 export default userSlice.reducer;
