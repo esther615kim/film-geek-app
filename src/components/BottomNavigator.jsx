@@ -15,7 +15,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 const RootStack = createStackNavigator();
 
 export const StackNavigator = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const userinfo = useSelector((state) => state.userInfo);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ export const StackNavigator = () => {
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal" }}>
         <RootStack.Screen name="View Movie" component={MovieModal} />
+        <RootStack.Screen name="Quiz Page" component={MultipleChoice} />
         {/* <RootStack.Screen name="Add Comment" component={CommentModal} /> */}
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal" }}>

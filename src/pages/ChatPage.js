@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { postUserMessage } from "../utils";
+import { Button } from "react-native-paper";
 
 import {
   Text,
@@ -8,7 +9,6 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Button,
   FlatList,
 } from "react-native";
 
@@ -54,7 +54,6 @@ export default function ChatPage({ navigation, route }) {
             setUsername(username);
           }}
         /> */}
-        <Text>Message</Text>
         <TextInput
           style={styles.input}
           placeholder="message"
@@ -63,9 +62,22 @@ export default function ChatPage({ navigation, route }) {
           value={message}
           onChangeText={(message) => setMessage(message)}
         />
-        <TouchableOpacity style={(loggedIn) ? styles.button : styles.buttonDisabled} disabled={!loggedIn} onPress={handleOnPress}>
-          <Text style={(loggedIn) ? styles.buttonText : styles.buttonTextDisabled}>Send</Text>
-        </TouchableOpacity>
+
+          <Button icon="send" mode="contained" onPress={handleOnPress}>
+           SEND
+          </Button>
+        {/* <TouchableOpacity 
+        style={{backgroundColor:"#4e02e6",color:"#fff",color:"#fff",textAlign:"center", maringBottom:5, padding:6}}
+        // style={(loggedIn) ? styles.button : styles.buttonDisabled} 
+        disabled={!loggedIn} 
+        onPress={handleOnPress}>
+
+          <Text
+          style={{color:"#fff"}} 
+          // style={(loggedIn) ? styles.buttonText : styles.buttonTextDisabled}
+          >
+            Send</Text>
+        </TouchableOpacity> */}
       </View>
       <View>
         <ChatsList messages={messages}/>
@@ -77,49 +89,57 @@ export default function ChatPage({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    backgroundColor: "#0a152b"
+    ,
+    color:"#fff",
+    padding: 20,
   },
   title: {
     padding: 10,
     marginBottom: 10,
   },
   input: {
+    color:"#fff",
     borderWidth: 1,
     borderColor: "grey",
     padding: 10,
     marginBottom: 10,
   },
-  button: {
-    height: 40,
-    //width: 100,
-    //backgroundColor: "magenta",
-    backgroundColor: 'blue',
-    // disabled: 'red',
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  buttonDisabled: {
-    height: 40,
-    //width: 100,
-    //backgroundColor: "magenta",
-    backgroundColor: 'black',
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: 'white',
+  // button: {
+  //   height: 40,
+  //   //width: 100,
+  //   //backgroundColor: "magenta",
+  //   backgroundColor: 'blue',
+  //   // disabled: 'red',
+  //   backgroundColor:"#f28852",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginBottom: 10,
+  // // },
+  // buttonDisabled: {
+  //   height: 40,
+  //   //width: 100,
+  //   //backgroundColor: "magenta",
+  //   backgroundColor:"#f28852",
+  //   backgroundColor: 'black',
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginBottom: 10,
+  // },
+  // buttonText: {
+  //   backgroundColor:"#f28852",
+  //   fontSize: 18,
+  //   fontWeight: "bold",
+  //   color: 'white',
+    
     // color: PRIMARY_TEXT_COLOUR
-  },
-  buttonTextDisabled: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: 'grey',
-  },
-  errorText: {
-    color: "red",
-  },
+  // },
+  // buttonTextDisabled: {
+  //   fontSize: 18,
+  //   fontWeight: "bold",
+  //   color: 'grey',
+  // },
+  // errorText: {
+  //   color: "red",
+  // },
 });

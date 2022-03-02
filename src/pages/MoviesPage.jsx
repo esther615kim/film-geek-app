@@ -62,10 +62,14 @@ const MoviesPage = ({ navigation }) => {
       setMoviesData(sortedMovies);
     }
   };
+  
+  const moveToQuizPage =()=>{
+    navigation.navigate("Quiz");
+  }
 
   return (
     <>
-      <Banner />
+      <Banner navigation={navigation} moveToQuizPage={moveToQuizPage} />
       <ScrollView>
         {moviesData ? (
           <View>

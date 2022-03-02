@@ -1,15 +1,16 @@
 import React from "react";
+import { Link } from "@react-navigation/native";
 import { TouchableOpacity, Text, ScrollView, View } from "react-native";
 
-export default function Banner() {
-  const handleClickCard = (e) => {
-    e.preventDefault();
-    console.log("category", e.target.value);
+export default function Banner({ navigation, moveToQuizPage }) {
+  const handleClickCard = () => {
+    moveToQuizPage();
   };
   return (
     <View>
       <ScrollView horizontal indivatorSTyle={"white"} style={{ padding: 10 }}>
         <TouchableOpacity
+          onPress={handleClickCard}
           style={{
             width: 80,
             height: 40,
@@ -22,7 +23,11 @@ export default function Banner() {
         >
           <Text>Easy</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Quiz");
+          }}
           style={{
             width: 80,
             height: 40,

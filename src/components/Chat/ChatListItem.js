@@ -3,16 +3,18 @@ import { isEven } from "../../utils";
 
 export default function ChatListItem({ item, index }) {
   return (
+    <View style={{paddingTop:5,color:"#212121",position:"relative"}}>
     <View style={isEven(index) ? styles.messageLeft : styles.messageRight}>
-      <Text style={styles.textUsername}>{item.username}</Text>
-      <Text style={styles.textMessage}>{item.message}</Text>
+      <Text style={isEven(index) ? styles.textRightusername : styles.textusername}>{isEven(index) ?"Zak":"user1"}</Text>
+      <Text style={isEven(index) ? styles.textRightMessage : styles.textMessage}>{item.message}</Text>
+    </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   message: {
-    backgroundColor: "cyan",
+    // backgroundColor: "cyan",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center"
@@ -20,26 +22,44 @@ const styles = StyleSheet.create({
     //borderBottomColor: 'black'
   },
   messageLeft: {
+    margin:5,
     textAlign: 'left',
-    backgroundColor: 'red', // TODO Use colour palette
-    marginBottom: 4 // Space between lines
+    paddingBottom:5,
+    paddingLeft:30,
+    borderRadius:15,
+    opacity:0.85,
+    color:"#212121", // TODO Use colour palette
+    marginBottom:5,// Space between lines
+    border:"1px solid #eee",
+    width:"80%"
   },
+  
   messageRight: {
+    margin:5,
     textAlign: 'right',
-    backgroundColor: 'blue', // TODO Use colour palette
+    marginLeft:"20%",
+    paddingRight:20,
+    color:"#212121",
+    borderRadius:15,
+     opacity:0.85,
+    backgroundColor: "linear-gradient(173deg, rgba(255,255,255,1) 17%, rgba(200,194,194,1) 65%, rgba(159,148,148,1) 100%)", // TODO Use colour palette
     marginBottom: 4, // Space between lines
+    width:"80%"
   },
   textUsername: {
       padding: 2,
-      color: 'yellow',
+      color: '#212121',
       fontSize: 12,
   },
+  textRightusername :{
+    color:"#fff"
+  },
   textMessage: {
-    padding: 4,
-      color: 'white',
+    padding: 2,
+      color: '#212121',
       fontSize: 16,
   },
-  button: {
-    backgroundColor: 'blue'
+  textRightMessage:{
+    color:"#fff",
   }
 });
