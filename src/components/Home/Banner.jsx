@@ -9,23 +9,23 @@ export default function Banner({ navigation, moveToQuizPage }) {
   };
   return (
     <View>
-              <Subheading style={{fontSize:22,fontWeight:600, padding:20, paddingBottom:5}}>Quizzes</Subheading>
+              <Subheading style={{fontSize:22,fontWeight:600, color:"#fff",padding:20, paddingBottom:5}}>Quizzes</Subheading>
       <ScrollView horizontal indivatorSTyle={"white"} style={{ padding: 10 }}>
         <TouchableOpacity
           onPress={handleClickCard}
           style={{
-            minWdth: 100,
-            height: 80,
+          width: 140,
+            height: 70,
             padding: 20,
-            paddingBottom:15,
+            paddingLeft:42,
+            paddingBottom:10,
             textAlign:"center",
-            backgroundColor: "#fe8d6f",
             borderRadius: 15,
-            color:"#fff",
             margin: 10,
+            border:"2px solid #58e065",
           }}
         >
- <Subheading style={{color:"#fff",fontSize:20}}>Movies:Easy</Subheading>
+ <Subheading style={{color:"#fff",fontSize:18}}>EASY</Subheading>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -33,33 +33,34 @@ export default function Banner({ navigation, moveToQuizPage }) {
             navigation.navigate("Quiz");
           }}
           style={{
-            minWdth: 100,
-            height: 80,
+            width: 140,
+            height: 70,
             padding: 20,
-            paddingBottom:15,
+            paddingLeft:30,
+            paddingBottom:10,
             textAlign:"center",
-            backgroundColor:"#9adbc5",
-            backgroundColor:"#3275a8",
             borderRadius: 15,
             margin: 10,
+            border:"2px solid #1b6df2",
           }}
         >
-           <Subheading style={{color:"#fff",fontSize:20}}>Movies:Medium</Subheading>
+           <Subheading style={{color:"#fff",fontSize:18}}>MEDIUM</Subheading>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            minWdth: 100,
-            height: 80,
+            width: 140,
+            height: 70,
             padding: 20,
-            paddingBottom:15,
+            PaddingLeft:40,
+            paddingBottom:10,
             textAlign:"center",
-            backgroundColor:"#9adbc5",
             borderRadius: 15,
             color:"#fff",
+            border:"2px solid #3bebe4",
             margin: 10,
           }}
         >
-          <Subheading style={{color:"#fff",fontSize:20}}>Movies:Difficult</Subheading>
+          <Subheading style={{color:"#fff",fontSize:20}}>HARD</Subheading>
         </TouchableOpacity>
       </ScrollView>
     </View>

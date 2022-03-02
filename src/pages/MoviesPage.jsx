@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Text, View, ScrollView, Picker } from "react-native";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
+import { Headline, Subheading, Chip } from "react-native-paper";
 import { useEffect } from "react";
 
 import Banner from "../components/Home/Banner";
@@ -62,37 +63,64 @@ const MoviesPage = ({ navigation }) => {
       setMoviesData(sortedMovies);
     }
   };
-  
-  const moveToQuizPage =()=>{
+
+  const moveToQuizPage = () => {
     navigation.navigate("Quiz");
-  }
+  };
 
   return (
-    <View style={{backgroundColor: "#0a152b",color:"#fff"}}>
+    <View style={{ backgroundColor: "#0a152b", color: "#fff" }}>
       <Banner navigation={navigation} moveToQuizPage={moveToQuizPage} />
-      <ScrollView >
+      <Subheading
+        style={{ fontSize: 22, fontWeight: 600, color: "#fff", padding: 20, paddingBottom: 5 }}
+      >
+        Movies
+      </Subheading>
+      <ScrollView>
         {moviesData ? (
-          <View style={{margin:10}}>
-            <Searchbar style={{borderRadius:10,backgroundColor:"#0a152b",color:"#fff"}}
-          
+          <View style={{ margin: 15 }}>
+            <Searchbar
+              style={{ borderRadius: 10, color: "#fff", backgroundColor: "#fff", marginBottom: 5 }}
               placeholder="Search"
               onChangeText={(e) => setSearchTerm(e)}
               value={searchTerm}
             />
-            <View style={{ flexDirection: "row", justifyContent: "flex-end",backgroundColor:"#0a152b",color:"#fff", paddingBottom:5}}>
-              <Picker 
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                backgroundColor: "#0a152b",
+                color: "#fff",
+                paddingBottom: 5,
+              }}
+            >
+              <Picker
                 selectedValue={sortMethod}
-                style={{ height: 40, width: 90 ,backgroundColor:"#0a152b",color:"#fff" }}
+                style={{ height: 40, width: 90, backgroundColor: "#0a152b", color: "#fff" }}
                 onValueChange={(sortMethod) => handleSortMethodChange(sortMethod)}
               >
-                <Picker.Item style={{backgroundColor:"#0a152b",color:"#fff",fontSize:5 }}label="Sort by" value="unknown" enabled={false} />
-                <Picker.Item style={{backgroundColor:"#0a152b",color:"#fff",fontSize:5  }} label="Name (A-Z)" value="name" />
-                <Picker.Item style={{backgroundColor:"#0a152b",color:"#fff",fontSize:5  }} label="Year of Release (descending)" value="year" />
+                <Picker.Item
+                  style={{ backgroundColor: "#0a152b", color: "#fff", fontSize: 5 }}
+                  label="Sort by"
+                  value="unknown"
+                  enabled={false}
+                />
+                <Picker.Item
+                  style={{ backgroundColor: "#0a152b", color: "#fff", fontSize: 5 }}
+                  label="Name (A-Z)"
+                  value="name"
+                />
+                <Picker.Item
+                  style={{ backgroundColor: "#0a152b", color: "#fff", fontSize: 5 }}
+                  label="Year of Release (descending)"
+                  value="year"
+                />
               </Picker>
             </View>
 
             {moviesData.map((movie) => (
               <Card
+                style={{ backgroundColor: "#363b57", padding: 5, marginBottom: 10 }}
                 key={movie.id}
                 onPress={() => {
                   navigation.navigate("View Movie", { movie });
@@ -104,9 +132,30 @@ const MoviesPage = ({ navigation }) => {
                   }}
                 />
                 <Card.Content>
-                  <Title>{movie.title}</Title>
-                  <Paragraph>{movie.plot}</Paragraph>
-                  <Text style={{ fontStyle: "italic", textAlign: "right" }}>{movie.year}</Text>
+                  <View style={{ position: "relative",border:"1px solid pink" }}>
+                    <Title style={{ color: "#fff", marginTop: 5, marginLeft: 60 }}>
+                      {movie.title}
+                    </Title>
+                    <Paragraph style={{ color: "#eee" }}>{movie.plot}</Paragraph>
+                    <View style={{ textAlign: "right" }}>
+                      <Chip
+                        style={{
+                          position: "absolute",
+                          top: 5,
+                          left: -2,
+                          color: "#212121",
+                          backgroundColor: "#dbca09",
+                          fontStyle: "italic",
+                          width: 55,
+                          height: 30,
+                          paddingLeft: -2,
+                          fontSize: 6,
+                        }}
+                      >
+                        {movie.year}
+                      </Chip>
+                    </View>
+                  </View>
                 </Card.Content>
               </Card>
             ))}
