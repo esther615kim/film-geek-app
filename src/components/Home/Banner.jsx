@@ -9,7 +9,7 @@ export default function Banner({ navigation, moveToQuizPage }) {
   };
   return (
     <View>
-              <Subheading style={{fontSize:22,fontWeight:600, color:"#fff",padding:20, paddingBottom:5}}>Quizzes</Subheading>
+              <Subheading style={{fontSize:22,fontWeight:600, color:"#fff",padding:20, paddingBottom:5}}>Take a Quiz</Subheading>
       <ScrollView horizontal indivatorSTyle={"white"} style={{ padding: 10 }}>
         <TouchableOpacity
           onPress={handleClickCard}
@@ -51,13 +51,12 @@ export default function Banner({ navigation, moveToQuizPage }) {
             width: 140,
             height: 70,
             padding: 20,
-            PaddingLeft:40,
+            paddingLeft:42,
             paddingBottom:10,
             textAlign:"center",
             borderRadius: 15,
-            color:"#fff",
-            border:"2px solid #3bebe4",
             margin: 10,
+            border:"2px solid #3bebe4",
           }}
         >
           <Subheading style={{color:"#fff",fontSize:20}}>HARD</Subheading>

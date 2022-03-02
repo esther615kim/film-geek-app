@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
     paddingRight:20,
     color:"#212121",
     borderRadius:15,
-     opacity:0.85,
-    backgroundColor: "linear-gradient(173deg, rgba(255,255,255,1) 17%, rgba(200,194,194,1) 65%, rgba(159,148,148,1) 100%)", // TODO Use colour palette
+    backgroundColor: "#e3d14d", // TODO Use colour palette
     marginBottom: 4, // Space between lines
     width:"80%"
   },

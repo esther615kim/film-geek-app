@@ -132,28 +132,33 @@ const MoviesPage = ({ navigation }) => {
                   }}
                 />
                 <Card.Content>
-                  <View style={{ position: "relative",border:"1px solid pink" }}>
-                    <Title style={{ color: "#fff", marginTop: 5, marginLeft: 60 }}>
+                  <View >
+                    <Title style={{ positon:"relative",color: "#fff", marginTop: 5, marginRight: 40 }}>
                       {movie.title}
-                    </Title>
-                    <Paragraph style={{ color: "#eee" }}>{movie.plot}</Paragraph>
-                    <View style={{ textAlign: "right" }}>
-                      <Chip
+                      <Text
                         style={{
                           position: "absolute",
-                          top: 5,
-                          left: -2,
+                          right: -5,
+                          borderRadius:10,
+                          paddingLeft:12,
+                          top:8,
+                          paddingTop:-5,
                           color: "#212121",
                           backgroundColor: "#dbca09",
                           fontStyle: "italic",
-                          width: 55,
-                          height: 30,
-                          paddingLeft: -2,
+                          width: 50,
+                          fontWeight:600,
+                          height: 26,
+                          paddingBottom:2,
                           fontSize: 6,
                         }}
                       >
                         {movie.year}
-                      </Chip>
+                      </Text>
+                    </Title>
+                    <Paragraph style={{ color: "#eee" }}>{movie.plot}</Paragraph>
+                    <View style={{ textAlign: "right" }}>
+
                     </View>
                   </View>
                 </Card.Content>
