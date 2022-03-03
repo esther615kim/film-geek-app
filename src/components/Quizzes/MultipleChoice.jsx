@@ -7,12 +7,13 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  ScrollView,
   SectionList,
   StyleSheet,
   Modal,
 } from "react-native";
 import React, { useEffect, useState, useReducer } from "react";
-import { Divider, Subheading } from 'react-native-paper';
+import { Divider, Subheading } from "react-native-paper";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { Button } from "react-native-paper";
@@ -112,21 +113,21 @@ export default function MultipleChoice() {
     const destructured = formattedOptns;
 
     const highlight = (itemId, event) => {
-      myRefs.current[itemId].setNativeProps({ style: { border:"2px solid #58e065" } });
+      myRefs.current[itemId].setNativeProps({ style: { border: "2px solid #58e065" } });
     };
 
     return (
       <View style={{ backgroundColor: "#0a152b", color: "#fff" }}>
-      <TouchableOpacity
-        onPress={() => {
-          updateState(formattedOptns.id);
-          highlight(formattedOptns.id);
-        }}
-      >
-        <View style={styles.listItem} ref={(el) => (myRefs.current[formattedOptns.id] = el)}>
-          <Text style={styles.listText}>{formattedOptns.option}</Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            updateState(formattedOptns.id);
+            highlight(formattedOptns.id);
+          }}
+        >
+          <View style={styles.listItem} ref={(el) => (myRefs.current[formattedOptns.id] = el)}>
+            <Text style={styles.listText}>{formattedOptns.option}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -156,10 +157,38 @@ export default function MultipleChoice() {
     };
 
     return (
-      <View style={{marginTop:20, background:"pink"}}>
-        <Button onPress={increaseQCount}>{nextButtonTitle}</Button>
-        <Button onPress={resetQCount}>{"Restart quiz"}</Button>
-      </View>
+      <ScrollView horizontal indivatorSTyle={"white"} style={{paddingTop:10,margin:20,textAlign:"center"}}>
+        <TouchableOpacity
+        onPress={resetQCount}
+
+          style={{
+            width: 130,
+            height: 50,
+            padding: 10,
+            paddingLeft: 42,
+            textAlign: "center",
+            borderRadius: 15,
+            margin: 10,
+          }}
+        >
+          <Subheading style={{ color: "#fff", fontSize: 16 }}>RESTART</Subheading>
+        </TouchableOpacity>
+        <TouchableOpacity
+        onPress={increaseQCount}
+          style={{
+            width: 130,
+            height: 50,
+            padding: 10,
+            paddingLeft: 42,
+            textAlign: "center",
+            borderRadius: 20,
+            margin: 10,
+            backgroundColor:"#3bebe4"
+          }}
+        >
+          <Subheading style={{ color: "#212121", fontSize: 16 }}>NEXT</Subheading>
+        </TouchableOpacity>
+      </ScrollView>
     );
   };
 
@@ -167,7 +196,7 @@ export default function MultipleChoice() {
     return (
       <View style={{ backgroundColor: "#0a152b", color: "#fff" }}>
         <Modal visible={modalOpen} animationType="slide">
-          <View color={{background:"#fff"}}>
+          <View color={{ background: "#fff" }}>
             <AntDesign
               name="close"
               size={24}
@@ -183,7 +212,7 @@ export default function MultipleChoice() {
 
         <AntDesign
           name="checkcircleo"
-          size={24}
+          size={30}
           style={styles.modalToggle}
           onPress={() => setModalOpen(true)}
         />
@@ -202,9 +231,21 @@ export default function MultipleChoice() {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#0a152b"}}>
-       <Subheading style={{fontSize:22,fontWeight:600, color:"#fff",paddingBottom:60,paddingTop:60, textAlign:"center", paddingBottom:5}}>Question {questCount}
-       <Text style={{color:"#ccc",fontSize:14}}> /10</Text></Subheading>
+    <SafeAreaView style={{ backgroundColor: "#0a152b" }}>
+      <Subheading
+        style={{
+          fontSize: 22,
+          fontWeight: 600,
+          color:"#dbca09",
+          paddingBottom: 60,
+          paddingTop: 60,
+          textAlign: "center",
+          paddingBottom: 5,
+        }}
+      >
+        Question {questCount}
+        <Text style={{ color: "#ccc", fontSize: 14 }}> /10</Text>
+      </Subheading>
       <FlatList
         data={currOptions}
         renderItem={renderzItem}
@@ -223,33 +264,35 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: 16,
   },
   list: {
     width: "100%",
   },
   listText: {
     color: "#fff",
-    fontSize:15,
-    padding:10
+    fontSize: 15,
+    padding: 8,
   },
   listHeaderText: {
-    color: "#ccc",
-    fontSize:20,
-    fontWeight:600
+    marginLeft:5,
+    color: "#fff",
+    fontSize: 20,
+    minHeight: 70,
+    fontWeight: 600,
   },
   listItem: {
     flex: 1,
     marginRight: 25,
     marginLeft: 25,
     marginTop: 15,
-    border:"1px solid #eee",
-    padding: 10,
+    border: "1px solid #eee",
+    padding: 8,
     borderRadius: 15,
   },
   listHeader: {
     flex: 1,
-    margin:20,
+    margin: 20,
     padding: 10,
     borderRadius: 5,
   },
@@ -265,11 +308,8 @@ const styles = StyleSheet.create({
   modalToggle: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#f2f2f2",
-    padding: 10,
-    borderRadius: 10,
+    marginBottom: 180,
+    color:"#1b6df2",
     alignSelf: "center",
   },
   modalClose: {
