@@ -65,7 +65,7 @@ const MoviesPage = ({ navigation }) => {
   };
 
   return (
-    <View style={{ backgroundColor: "#0a152b", color: "#fff" }}>
+    <ScrollView style={{ backgroundColor: "#0a152b", color: "#fff" }}>
       <Banner navigation={navigation} />
       <Subheading
         style={{ fontSize: 22, fontWeight: 600, color: "#fff", padding: 20, paddingBottom: 5 }}
@@ -170,7 +170,7 @@ const MoviesPage = ({ navigation }) => {
           <Text>Loading movies...</Text>
         )}
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 };
 

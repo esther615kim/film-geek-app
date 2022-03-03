@@ -55,8 +55,16 @@ export default function MultipleChoice({route}) {
   let formatOptns = [];
   const formatQnsArr = [];
 
-  const { difficulty } = route.params;
-  function reducer(state, action) {}
+
+
+  let difficulty;
+  if(route.params){
+     difficulty = route.params.difficulty;
+    
+  }else{
+    difficulty = 'easy'
+  }
+  
 
   useEffect(() => {
     async function readQuizData() {
@@ -67,7 +75,7 @@ export default function MultipleChoice({route}) {
         docRef = doc(db, "quizData", "pSf1qAQUlGaztNDrcBjB");
       } else if (difficulty === "medium") {
         docRef = doc(db, "mediumQuiz", "mediumQuiz");
-      } else {
+      } else if (difficulty === "hard") {
         docRef = doc(db, "hardQuiz", "hardQuiz");
       }
 
@@ -168,7 +176,7 @@ export default function MultipleChoice({route}) {
       <ScrollView
         horizontal
         indivatorSTyle={"white"}
-        style={{ paddingTop: 10, margin: 5, marginLeft:20, textAlign: "center"}}
+        style={{ paddingTop: 10, marginLeft:20, textAlign: "center"}}
       >
         <TouchableOpacity
           onPress={resetQCount}
@@ -180,7 +188,7 @@ export default function MultipleChoice({route}) {
             textAlign: "center",
             borderRadius: 15,
             margin: 10,
-            marginBottom:5,
+
           }}
         >
           <Subheading style={{ color: "#fff", fontSize: 16 }}>RESTART</Subheading>
@@ -195,7 +203,6 @@ export default function MultipleChoice({route}) {
             textAlign: "center",
             borderRadius: 20,
             margin: 10,
-            marginBottom:5,
             backgroundColor: "#3bebe4",
           }}
         >
