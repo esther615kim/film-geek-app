@@ -13,7 +13,7 @@ import {
   Modal,
 } from "react-native";
 import React, { useEffect, useState, useReducer } from "react";
-import { Divider, Subheading } from "react-native-paper";
+import { Divider, Subheading, Avatar } from "react-native-paper";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { Button } from "react-native-paper";
@@ -157,10 +157,13 @@ export default function MultipleChoice() {
     };
 
     return (
-      <ScrollView horizontal indivatorSTyle={"white"} style={{paddingTop:10,margin:20,textAlign:"center"}}>
+      <ScrollView
+        horizontal
+        indivatorSTyle={"white"}
+        style={{ paddingTop: 10, margin: 5, marginLeft:20, textAlign: "center"}}
+      >
         <TouchableOpacity
-        onPress={resetQCount}
-
+          onPress={resetQCount}
           style={{
             width: 130,
             height: 50,
@@ -169,12 +172,13 @@ export default function MultipleChoice() {
             textAlign: "center",
             borderRadius: 15,
             margin: 10,
+            marginBottom:5,
           }}
         >
           <Subheading style={{ color: "#fff", fontSize: 16 }}>RESTART</Subheading>
         </TouchableOpacity>
         <TouchableOpacity
-        onPress={increaseQCount}
+          onPress={increaseQCount}
           style={{
             width: 130,
             height: 50,
@@ -183,7 +187,8 @@ export default function MultipleChoice() {
             textAlign: "center",
             borderRadius: 20,
             margin: 10,
-            backgroundColor:"#3bebe4"
+            marginBottom:5,
+            backgroundColor: "#3bebe4",
           }}
         >
           <Subheading style={{ color: "#212121", fontSize: 16 }}>NEXT</Subheading>
@@ -194,22 +199,26 @@ export default function MultipleChoice() {
 
   const ResultsModal = () => {
     return (
-      <View style={{ backgroundColor: "#0a152b", color: "#fff" }}>
+      <View style={{ padding: 10, flex: 1, alignItems: "center",position:"relative",backgroundColor: "#333540"}}>
         <Modal visible={modalOpen} animationType="slide">
-          <View color={{ background: "#fff" }}>
-            <AntDesign
-              name="close"
-              size={24}
-              style={styles.modalToggle}
-              onPress={() => setModalOpen(false)}
-              text="hi"
-            />
-            <Text>
-              You scored {scoreCount} out of {quizData.length} questions correctly!{" "}
-            </Text>
+          <View style={{ backgroundColor: "#eee", margin:20,paddingTop:40,paddingBottom:40,borderRadius:20}}>
+          <AntDesign
+            name="close"
+            size={24}
+            style={styles.modalToggle2}
+            onPress={() => setModalOpen(false)}
+            text="hi"
+          />
+          <View style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+          <Avatar.Icon size={100} icon={scoreCount > 5 ? "trophy-outline" : "trophy-broken"} />
+          <Text style={{fontSize:22,padding:42,marginTop:20,fontWeight:600}}>
+            You scored 
+            <Text style={{fontSize:40, padding:12, paddingTop:6,paddingBottom:6, margin:10, backgroundColor: "#dbca09",borderRadius:"48%"}}> {scoreCount} </Text>
+out of {quizData.length} questions correctly!{" "}
+          </Text>
+          </View>
           </View>
         </Modal>
-
         <AntDesign
           name="checkcircleo"
           size={30}
@@ -236,7 +245,7 @@ export default function MultipleChoice() {
         style={{
           fontSize: 22,
           fontWeight: 600,
-          color:"#dbca09",
+          color: "#dbca09",
           paddingBottom: 60,
           paddingTop: 60,
           textAlign: "center",
@@ -275,7 +284,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   listHeaderText: {
-    marginLeft:5,
+    marginLeft: 5,
     color: "#fff",
     fontSize: 20,
     minHeight: 70,
@@ -308,9 +317,15 @@ const styles = StyleSheet.create({
   modalToggle: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 180,
-    color:"#1b6df2",
+    marginBottom: 20,
+    color: "#1b6df2",
     alignSelf: "center",
+  },
+  modalToggle2: {
+    position:"absolute",
+    top:10,
+    right:10,
+    color: "#1b6df2"
   },
   modalClose: {
     marginTop: 20,
