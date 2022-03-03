@@ -1,11 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, ScrollView, View } from "react-native";
 
-export default function Banner() {
-  const handleClickCard = (e) => {
-    e.preventDefault();
-    console.log("category", e.target.value);
-  };
+export default function Banner({ navigation }) {
   return (
     <View>
       <ScrollView horizontal indivatorSTyle={"white"} style={{ padding: 10 }}>
@@ -18,6 +14,9 @@ export default function Banner() {
             textAlign: "center",
             borderRadius: 15,
             margin: 5,
+          }}
+          onPress={() => {
+            navigation.navigate("Quiz", { difficulty: "easy" });
           }}
         >
           <Text>Easy</Text>
@@ -32,8 +31,11 @@ export default function Banner() {
             borderRadius: 15,
             margin: 5,
           }}
+          onPress={() => {
+            navigation.navigate("Quiz", { difficulty: "medium" });
+          }}
         >
-          <Text>Difficult</Text>
+          <Text>Medium</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
@@ -45,21 +47,11 @@ export default function Banner() {
             borderRadius: 15,
             margin: 5,
           }}
-        >
-          <Text>History</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: 80,
-            height: 40,
-            padding: 10,
-            backgroundColor: "#3275a8",
-            textAlign: "center",
-            borderRadius: 15,
-            margin: 5,
+          onPress={() => {
+            navigation.navigate("Quiz", { difficulty: "hard" });
           }}
         >
-          <Text>Drama</Text>
+          <Text>Hard</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

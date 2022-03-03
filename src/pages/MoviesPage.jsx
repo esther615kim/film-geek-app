@@ -65,7 +65,7 @@ const MoviesPage = ({ navigation }) => {
 
   return (
     <>
-      <Banner />
+      <Banner navigation={navigation} />
       <ScrollView>
         {moviesData ? (
           <View>
