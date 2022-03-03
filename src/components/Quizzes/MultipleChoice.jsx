@@ -207,7 +207,7 @@ export default function MultipleChoice({route}) {
 
   const ResultsModal = () => {
     return (
-      <View style={{ padding: 10, flex: 1, alignItems: "center",position:"relative",backgroundColor: "#333540"}}>
+      <View style={{ padding: 10, flex: 1, alignItems: "center",position:"relative",backgroundColor: "#0a152b"}}>
         <Modal visible={modalOpen} animationType="slide">
           <View style={{ backgroundColor: "#eee", margin:20,paddingTop:40,paddingBottom:40,borderRadius:20}}>
           <AntDesign
@@ -326,6 +326,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
+    paddingBottom:80,
     color: "#1b6df2",
     alignSelf: "center",
   },

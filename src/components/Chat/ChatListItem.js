@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingRight:20,
     color:"#212121",
     borderRadius:15,
-    paddingobttom:6,
+    paddingBottom:6,
     backgroundColor: "#f5f3cb", // TODO Use colour palette
     marginBottom: 5, // Space between lines
     width:"80%"
