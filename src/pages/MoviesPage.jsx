@@ -64,13 +64,9 @@ const MoviesPage = ({ navigation }) => {
     }
   };
 
-  const moveToQuizPage = () => {
-    navigation.navigate("Quiz");
-  };
-
   return (
     <View style={{ backgroundColor: "#0a152b", color: "#fff" }}>
-      <Banner navigation={navigation} moveToQuizPage={moveToQuizPage} />
+      <Banner navigation={navigation} />
       <Subheading
         style={{ fontSize: 22, fontWeight: 600, color: "#fff", padding: 20, paddingBottom: 5 }}
       >

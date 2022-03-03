@@ -28,8 +28,8 @@ export const StackNavigator = () => {
         <RootStack.Screen
           options={{ headerShown: false }}
           name="Landing"
-          component={MoviesPage}
-          // component={loggedIn ? MoviesPage : LoginPage}
+          // component={MoviesPage}
+          component={loggedIn ? MoviesPage : LoginPage}
         />
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal" }}>

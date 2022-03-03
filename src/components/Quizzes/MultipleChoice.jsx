@@ -33,7 +33,7 @@ const ListHeader = (item) => {
 
 const correctAnsArr = [];
 
-export default function MultipleChoice() {
+export default function MultipleChoice({route}) {
   const [quizData, setQuizData] = useState([]);
 
   const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
@@ -55,13 +55,21 @@ export default function MultipleChoice() {
   let formatOptns = [];
   const formatQnsArr = [];
 
+  const { difficulty } = route.params;
   function reducer(state, action) {}
 
   useEffect(() => {
     async function readQuizData() {
-      const docRef = doc(db, "quizData", "pSf1qAQUlGaztNDrcBjB");
-      console.log("Reading quizData in Firestore...");
+      let docRef = doc(db, "quizData", "pSf1qAQUlGaztNDrcBjB");
       const docSnap = await getDoc(docRef);
+
+      if (difficulty === "easy") {
+        docRef = doc(db, "quizData", "pSf1qAQUlGaztNDrcBjB");
+      } else if (difficulty === "medium") {
+        docRef = doc(db, "mediumQuiz", "mediumQuiz");
+      } else {
+        docRef = doc(db, "hardQuiz", "hardQuiz");
+      }
 
       if (docSnap.exists()) {
         const questionData = docSnap.data().results;
@@ -106,13 +114,13 @@ export default function MultipleChoice() {
     }
     readQuizData();
     // extract options data into array
-  }, [questCount]);
+  }, [questCount, difficulty]);
 
   const myRefs = React.useRef([]);
   const ItemComp = (formattedOptns) => {
     const destructured = formattedOptns;
 
-    const highlight = (itemId, event) => {
+    const highlight = (itemId) => {
       myRefs.current[itemId].setNativeProps({ style: { border: "2px solid #58e065" } });
     };
 

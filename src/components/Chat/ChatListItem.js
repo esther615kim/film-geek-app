@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
   messageLeft: {
     margin:5,
     textAlign: 'left',
-    paddingBottom:5,
-    paddingLeft:30,
+    paddingBottom:6,
+    paddingLeft:20,
     borderRadius:15,
     opacity:0.85,
     color:"#212121", // TODO Use colour palette
@@ -41,8 +41,9 @@ const styles = StyleSheet.create({
     paddingRight:20,
     color:"#212121",
     borderRadius:15,
-    backgroundColor: "#fff", // TODO Use colour palette
-    marginBottom: 4, // Space between lines
+    paddingobttom:6,
+    backgroundColor: "#f5f3cb", // TODO Use colour palette
+    marginBottom: 5, // Space between lines
     width:"80%"
   },
   textUsername: {
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
       fontSize: 12,
   },
   textRightusername :{
-    color:"#fff"
+    color:"#fff",
   },
   textMessage: {
     padding: 2,
